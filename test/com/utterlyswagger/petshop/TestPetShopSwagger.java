@@ -1,14 +1,15 @@
 package com.utterlyswagger.petshop;
 
+import com.utterlyswagger.petshop.path.BasicPath;
 import org.junit.Test;
 
 import java.util.Map;
 
-import static com.utterlyswagger.petshop.path.PathAssertions.mapInPathKeys;
-import static com.utterlyswagger.petshop.path.PathAssertions.stringInPath;
+import static com.utterlyswagger.petshop.path.PathAssertions.*;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.AllOf.allOf;
 
 public abstract class TestPetShopSwagger {
@@ -51,6 +52,16 @@ public abstract class TestPetShopSwagger {
                     "/user/logout", "/user/{username}"),
                 "paths")
         );
+    }
+
+    @Test
+    public void definesSimpleGetResource() throws Exception {
+        assertThat(
+            BasicPath.mapAt(getSwagger(), "paths", "/user/logout"),
+            allOf(
+                listInPath(contains("application/json", "application/xml"), "get", "produces"),
+                stringInPath(is("successful operation"), "get", "responses", "default", "description")
+            ));
     }
 
     protected abstract Map<String, Object> getSwagger() throws Exception;

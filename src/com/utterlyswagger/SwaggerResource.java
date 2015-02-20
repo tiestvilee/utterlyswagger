@@ -35,14 +35,21 @@ public class SwaggerResource {
         return json(map(
             "swagger", "2.0",
             "info", info.asMap(),
-            "paths", paths()
+            "paths", paths(resources)
         ));
     }
 
-    private Map<String, String> paths() {
+    public static Map<String, Object> paths(Resources resources) {
         return map(sequence(resources)
             .filter(binding -> !binding.hidden())
-            .map(binding -> "/" + binding.uriTemplate())
-            .map(template -> pair(template, "whatever")));
+            .map(binding -> pair("/" + binding.uriTemplate(), swaggerPath(binding))));
+    }
+
+    public static Map<String, Object> swaggerPath(Binding binding) {
+        return map(binding.httpMethod().toLowerCase(), map(
+            "produces", binding.produces().toList(),
+            "responses", map(
+                "default", map(
+                    "description", "successful operation"))));
     }
 }

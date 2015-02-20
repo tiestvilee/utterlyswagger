@@ -1,8 +1,7 @@
 package com.utterlyswagger.petshop.application;
 
 import com.googlecode.utterlyidle.Response;
-import com.googlecode.utterlyidle.annotations.GET;
-import com.googlecode.utterlyidle.annotations.Path;
+import com.googlecode.utterlyidle.annotations.*;
 
 public class PetShopResource {
 
@@ -56,6 +55,8 @@ public class PetShopResource {
 
     @GET
     @Path("/user/logout")
+    @Produces({"application/json", "application/xml"})
+
     public Response logout() { return null; }
 
     @GET
