@@ -59,6 +59,7 @@ public abstract class TestPetShopSwagger {
         assertThat(
             BasicPath.mapAt(getSwagger(), "paths", "/user/logout"),
             allOf(
+                stringInPath(is("Logs out current logged in user session"), "get", "summary"),
                 listInPath(contains("application/json", "application/xml"), "get", "produces"),
                 stringInPath(is("successful operation"), "get", "responses", "default", "description")
             ));

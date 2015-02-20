@@ -1,8 +1,12 @@
 package com.utterlyswagger;
 
+import com.googlecode.totallylazy.Sequence;
 import com.googlecode.utterlyidle.*;
 import com.googlecode.utterlyidle.annotations.*;
+import com.googlecode.utterlyidle.bindings.actions.ResourceMethod;
+import com.utterlyswagger.annotations.Summary;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import static com.googlecode.totallylazy.Maps.map;
@@ -46,10 +50,25 @@ public class SwaggerResource {
     }
 
     public static Map<String, Object> swaggerPath(Binding binding) {
+        Sequence<Annotation> annotations = sequence(
+            sequence(binding.action().metaData())
+                .filter(metaData -> metaData instanceof ResourceMethod)
+                .map(metaData -> (ResourceMethod) metaData)
+                .map(resourceMethod -> resourceMethod.value())
+                .head()
+                .getAnnotations());
+
         return map(binding.httpMethod().toLowerCase(), map(
             "produces", binding.produces().toList(),
+            "summary", getSummary(annotations),
             "responses", map(
                 "default", map(
                     "description", "successful operation"))));
+    }
+
+    private static String getSummary(Sequence<Annotation> annotations) {
+        return annotations
+            .find(annotation -> annotation.annotationType().equals(Summary.class))
+            .map(summary -> ((Summary) summary).value()).getOrElse("No summary supplied");
     }
 }

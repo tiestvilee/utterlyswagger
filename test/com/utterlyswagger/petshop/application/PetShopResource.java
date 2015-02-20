@@ -2,6 +2,8 @@ package com.utterlyswagger.petshop.application;
 
 import com.googlecode.utterlyidle.Response;
 import com.googlecode.utterlyidle.annotations.*;
+import com.utterlyswagger.annotations.Description;
+import com.utterlyswagger.annotations.Summary;
 
 public class PetShopResource {
 
@@ -56,7 +58,8 @@ public class PetShopResource {
     @GET
     @Path("/user/logout")
     @Produces({"application/json", "application/xml"})
-
+    @Description("")
+    @Summary("Logs out current logged in user session")
     public Response logout() { return null; }
 
     @GET
