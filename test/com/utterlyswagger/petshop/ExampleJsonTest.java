@@ -12,9 +12,9 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class TestExampleJson extends PetShopTest {
+public class ExampleJsonTest extends TestPetShopSwagger {
 
-    private final static String petStoreSwaggerJson = Strings.string(TestExampleJson.class.getResourceAsStream("swagger.json"));
+    private final static String petStoreSwaggerJson = Strings.string(ExampleJsonTest.class.getResourceAsStream("swagger.json"));
 
     @Test
     @Ignore
