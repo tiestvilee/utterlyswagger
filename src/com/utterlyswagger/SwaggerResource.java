@@ -1,5 +1,6 @@
 package com.utterlyswagger;
 
+import com.googlecode.totallylazy.Callable1;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.utterlyidle.*;
 import com.googlecode.utterlyidle.annotations.*;
@@ -69,14 +70,16 @@ public class SwaggerResource {
     }
 
     private static String getSummary(Sequence<Annotation> annotations) {
-        return annotations
-            .find(annotation -> annotation.annotationType().equals(Summary.class))
-            .map(summary -> ((Summary) summary).value()).getOrElse("No summary supplied");
+        return getAnnotationValue(annotations, "No summary supplied", Summary.class, summary -> ((Summary) summary).value());
     }
 
     private static String getDescription(Sequence<Annotation> annotations) {
+        return getAnnotationValue(annotations, "", Description.class, description -> ((Description) description).value());
+    }
+
+    private static String getAnnotationValue(Sequence<Annotation> annotations, String defaultText, Class aClass, Callable1<Annotation, String> getValue) {
         return annotations
-            .find(annotation -> annotation.annotationType().equals(Description.class))
-            .map(summary -> ((Description) summary).value()).getOrElse("");
+            .find(annotation -> annotation.annotationType().equals(aClass))
+            .map(getValue).getOrElse(defaultText);
     }
 }
