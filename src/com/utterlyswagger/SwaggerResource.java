@@ -29,7 +29,6 @@ public class SwaggerResource {
     private String buildJson() {
         return json(map(
             "swagger", "2.0",
-            "basePath", "/v2",
             "info", info.asMap()));
     }
 }

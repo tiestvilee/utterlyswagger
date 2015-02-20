@@ -12,16 +12,18 @@ import static org.hamcrest.core.AllOf.allOf;
 public abstract class TestPetShopSwagger {
 
     @Test
-    public void definesSwaggerVersionAndBasePath() throws Exception {
+    public void definesSwaggerVersion() throws Exception {
         assertThat(
             getSwagger(),
             allOf(
-                stringInPath(is("2.0"), "swagger"),
-                stringInPath(is("/v2"), "basePath")));
+                stringInPath(is("2.0"), "swagger")
+//                stringInPath(is("/v2"), "basePath"),
+//                stringInPath(is("petstore.swagger.io"), "host")
+            ));
     }
 
     @Test
-    public void definesSwaggerInfo() throws Exception {
+    public void definesMinimumSwaggerInfo() throws Exception {
         assertThat(
             getSwagger(),
             allOf(
@@ -33,7 +35,6 @@ public abstract class TestPetShopSwagger {
 //                stringInPath(is("Apache 2.0"), "info", "license", "name"),
 //                stringInPath(is("http://www.apache.org/licenses/LICENSE-2.0.html"), "info", "license", "url")
             ));
-
     }
 
     protected abstract Map<String, Object> getSwagger() throws Exception;
