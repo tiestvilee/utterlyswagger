@@ -1,10 +1,10 @@
 package com.utterlyswagger.petshop;
 
-import com.utterlyswagger.petshop.path.BasicPath;
 import org.junit.Test;
 
 import java.util.Map;
 
+import static com.utterlyswagger.petshop.path.BasicPath.mapAt;
 import static com.utterlyswagger.petshop.path.PathAssertions.*;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
@@ -57,7 +57,7 @@ public abstract class TestPetShopSwagger {
     @Test
     public void definesSimpleGetResource() throws Exception {
         assertThat(
-            BasicPath.mapAt(getSwagger(), "paths", "/user/logout", "get"),
+            mapAt(getSwagger(), "paths", "/user/logout", "get"),
             allOf(
                 stringInPath(is("Logs out current logged in user session"), "summary"),
                 listInPath(contains("application/json", "application/xml"), "produces"),
@@ -68,13 +68,20 @@ public abstract class TestPetShopSwagger {
     @Test
     public void definesDeleteResourceWithDescriptionAndMoreResponses() throws Exception {
         assertThat(
-            BasicPath.mapAt(getSwagger(), "paths", "/store/order/{orderId}", "delete"),
+            mapAt(getSwagger(), "paths", "/store/order/{orderId}", "delete"),
             allOf(
                 stringInPath(is("For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"),
                     "description"),
                 stringInPath(is("Order not found"), "responses", "404", "description"),
                 stringInPath(is("Invalid ID supplied"), "responses", "400", "description")
             ));
+    }
+
+    @Test
+    public void definesResourceWithMultipleActions() throws Exception {
+        assertThat(
+            getSwagger(),
+            mapInPathKeys(contains("get", "delete"), "paths", "/store/order/{orderId}"));
     }
 
     protected abstract Map<String, Object> getSwagger() throws Exception;

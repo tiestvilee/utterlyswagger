@@ -34,12 +34,21 @@ public class PetShopResource {
     @Path("/store/order")
     public Response order() { return null; }
 
+    @GET
+    @Path("/store/order/{orderId}")
+    @Summary("Find purchase order by ID")
+    @Description("For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions")
+    @ResponseDescription(status = "404", description = "Order not found")
+    @ResponseDescription(status = "400", description = "Invalid ID supplied")
+    @ResponseDescription(status = "200", description = "successful operation")
+    public Response orderId() { return null; }
+
     @DELETE
     @Path("/store/order/{orderId}")
     @Description("For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors")
     @ResponseDescription(status = "404", description = "Order not found")
     @ResponseDescription(status = "400", description = "Invalid ID supplied")
-    public Response orderId() { return null; }
+    public Response deleteOrderId() { return null; }
 
     @GET
     @Path("/user")

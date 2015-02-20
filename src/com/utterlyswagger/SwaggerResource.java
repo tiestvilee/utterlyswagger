@@ -1,7 +1,6 @@
 package com.utterlyswagger;
 
-import com.googlecode.totallylazy.Callable1;
-import com.googlecode.totallylazy.Sequence;
+import com.googlecode.totallylazy.*;
 import com.googlecode.utterlyidle.*;
 import com.googlecode.utterlyidle.annotations.*;
 import com.googlecode.utterlyidle.bindings.actions.ResourceMethod;
@@ -37,44 +36,47 @@ public class SwaggerResource {
     }
 
     private String buildJson() {
-        return json(map(
+        return json(swagger(info, resources));
+    }
+
+    public static Map<String, Object> swagger(SwaggerInfo info, Resources resources) {
+        return map(
             "swagger", "2.0",
             "info", info.asMap(),
             "paths", paths(resources)
-        ));
+        );
     }
 
-    public static Map<String, Object> paths(Resources resources) {
-        return map(sequence(resources)
+    public static Map<String, Map<String, Object>> paths(Resources resources) {
+        return sequence(resources)
             .filter(binding -> !binding.hidden())
-            .map(binding -> pair("/" + binding.uriTemplate(), swaggerPath(binding))));
+            .map(binding -> pair("/" + binding.uriTemplate(), pathItem(binding)))
+            .foldLeft(map(), SwaggerResource::foldInOperationObjects);
     }
 
-    public static Map<String, Object> swaggerPath(Binding binding) {
-        Sequence<Annotation> annotations = sequence(
-            sequence(binding.action().metaData())
-                .filter(metaData -> metaData instanceof ResourceMethod)
-                .map(metaData -> (ResourceMethod) metaData)
-                .map(ResourceMethod::value)
-                .head()
-                .getAnnotations());
+    public static Pair<String, Object> pathItem(Binding binding) {
+        return pair(
+            binding.httpMethod().toLowerCase(),
+            operationObject(binding, annotationsFor(binding)));
+    }
 
-        return map(binding.httpMethod().toLowerCase(), map(
+    private static Map<String, Object> operationObject(Binding binding, Sequence<Annotation> annotations) {
+        return map(
             "produces", binding.produces().toList(),
-            "summary", getSummary(annotations),
-            "description", getDescription(annotations),
-            "responses", getResponses(annotations)));
+            "summary", summary(annotations),
+            "description", description(annotations),
+            "responses", responses(annotations));
     }
 
-    private static String getSummary(Sequence<Annotation> annotations) {
+    private static String summary(Sequence<Annotation> annotations) {
         return getAnnotationValue(annotations, "No summary supplied", Summary.class, summary -> ((Summary) summary).value());
     }
 
-    private static String getDescription(Sequence<Annotation> annotations) {
+    private static String description(Sequence<Annotation> annotations) {
         return getAnnotationValue(annotations, "", Description.class, description -> ((Description) description).value());
     }
 
-    private static Map<String, Object> getResponses(Sequence<Annotation> annotations) {
+    private static Map<String, Object> responses(Sequence<Annotation> annotations) {
         Map<String, Object> defaultResponse = map(
             "default", map(
                 "description", "successful operation"));
@@ -87,9 +89,34 @@ public class SwaggerResource {
                             pair(desc.status(), (Object) map("description", desc.description())))));
     }
 
+    private static Sequence<Annotation> annotationsFor(Binding binding) {
+        return sequence(
+            sequence(binding.action().metaData())
+                .filter(metaData -> metaData instanceof ResourceMethod)
+                .map(metaData -> (ResourceMethod) metaData)
+                .map(ResourceMethod::value)
+                .head()
+                .getAnnotations());
+    }
+
     private static <T> T getAnnotationValue(Sequence<Annotation> annotations, T defaultResult, Class aClass, Callable1<Annotation, T> getValue) {
         return annotations
             .find(annotation -> annotation.annotationType().equals(aClass))
             .map(getValue).getOrElse(defaultResult);
+    }
+
+    private static Map<String, Map<String, Object>> foldInOperationObjects(Map<String, Map<String, Object>> acc, Pair<String, Pair<String, Object>> pair) {
+        String uriTemplate = pair.getKey();
+
+        Pair<String, Object> pathItem = pair.getValue();
+        String httpVerb = pathItem.getKey();
+        Object operationObject = pathItem.getValue();
+
+        if (acc.containsKey(uriTemplate)) {
+            acc.get(uriTemplate).put(httpVerb, operationObject);
+        } else {
+            acc.put(uriTemplate, map(httpVerb, operationObject));
+        }
+        return acc;
     }
 }
