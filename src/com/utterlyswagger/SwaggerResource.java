@@ -1,8 +1,9 @@
 package com.utterlyswagger;
 
-import com.googlecode.utterlyidle.MediaType;
-import com.googlecode.utterlyidle.Response;
+import com.googlecode.utterlyidle.*;
 import com.googlecode.utterlyidle.annotations.*;
+
+import java.util.Map;
 
 import static com.googlecode.totallylazy.Maps.map;
 import static com.googlecode.totallylazy.Pair.pair;
@@ -14,9 +15,11 @@ import static com.googlecode.utterlyidle.Status.OK;
 public class SwaggerResource {
 
     private final SwaggerInfo info;
+    private final Resources resources;
 
-    public SwaggerResource(SwaggerInfo info) {
+    public SwaggerResource(SwaggerInfo info, Resources resources) {
         this.info = info;
+        this.resources = resources;
     }
 
     @GET
@@ -32,8 +35,14 @@ public class SwaggerResource {
         return json(map(
             "swagger", "2.0",
             "info", info.asMap(),
-            "paths", map(sequence("/pet", "/pet/findByStatus", "/pet/findByTags", "/pet/{petId}", "/pet/{petId}/uploadImage", "/store/inventory", "/store/order", "/store/order/{orderId}", "/user", "/user/createWithArray", "/user/createWithList", "/user/login", "/user/logout", "/user/{username}")
-                .map(key -> pair(key, "whatever")))
+            "paths", paths()
         ));
+    }
+
+    private Map<String, String> paths() {
+        return map(sequence(resources)
+            .filter(binding -> !binding.hidden())
+            .map(binding -> "/" + binding.uriTemplate())
+            .map(template -> pair(template, "whatever")));
     }
 }

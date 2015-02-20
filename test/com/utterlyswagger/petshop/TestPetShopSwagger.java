@@ -6,9 +6,9 @@ import java.util.Map;
 
 import static com.utterlyswagger.petshop.path.PathAssertions.mapInPathKeys;
 import static com.utterlyswagger.petshop.path.PathAssertions.stringInPath;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.AllOf.allOf;
 
 public abstract class TestPetShopSwagger {
@@ -43,7 +43,7 @@ public abstract class TestPetShopSwagger {
     public void definesPaths() throws Exception {
         assertThat(
             getSwagger(),
-            mapInPathKeys(contains(
+            mapInPathKeys(hasItems(
                     "/pet", "/pet/findByStatus", "/pet/findByTags",
                     "/pet/{petId}", "/pet/{petId}/uploadImage", "/store/inventory",
                     "/store/order", "/store/order/{orderId}", "/user",

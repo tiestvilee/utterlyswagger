@@ -15,7 +15,9 @@ public class ModuleJsonTest extends TestPetShopSwagger {
 
     @Override
     protected Map<String, Object> getSwagger() throws Exception {
-        return Json.map(application.handle(get("/v2/swagger.json").build()).entity().toString());
+        String jsonString = application.handle(get("/v2/swagger.json").build()).entity().toString();
+        System.out.println("jsonString = " + jsonString);
+        return Json.map(jsonString);
     }
 
 }
