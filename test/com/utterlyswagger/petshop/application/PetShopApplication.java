@@ -1,4 +1,4 @@
-package com.utterlyswagger.petshop;
+package com.utterlyswagger.petshop.application;
 
 import com.googlecode.utterlyidle.BasePath;
 import com.googlecode.utterlyidle.RestApplication;
