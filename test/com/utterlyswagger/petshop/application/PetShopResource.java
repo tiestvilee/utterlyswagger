@@ -2,8 +2,7 @@ package com.utterlyswagger.petshop.application;
 
 import com.googlecode.utterlyidle.Response;
 import com.googlecode.utterlyidle.annotations.*;
-import com.utterlyswagger.annotations.Description;
-import com.utterlyswagger.annotations.Summary;
+import com.utterlyswagger.annotations.*;
 
 public class PetShopResource {
 
@@ -38,6 +37,8 @@ public class PetShopResource {
     @DELETE
     @Path("/store/order/{orderId}")
     @Description("For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors")
+    @ResponseDescription(status = "404", description = "Order not found")
+    @ResponseDescription(status = "400", description = "Invalid ID supplied")
     public Response orderId() { return null; }
 
     @GET

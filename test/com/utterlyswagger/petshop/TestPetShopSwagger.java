@@ -57,21 +57,23 @@ public abstract class TestPetShopSwagger {
     @Test
     public void definesSimpleGetResource() throws Exception {
         assertThat(
-            BasicPath.mapAt(getSwagger(), "paths", "/user/logout"),
+            BasicPath.mapAt(getSwagger(), "paths", "/user/logout", "get"),
             allOf(
-                stringInPath(is("Logs out current logged in user session"), "get", "summary"),
-                listInPath(contains("application/json", "application/xml"), "get", "produces"),
-                stringInPath(is("successful operation"), "get", "responses", "default", "description")
+                stringInPath(is("Logs out current logged in user session"), "summary"),
+                listInPath(contains("application/json", "application/xml"), "produces"),
+                stringInPath(is("successful operation"), "responses", "default", "description")
             ));
     }
 
     @Test
-    public void definesDeleteResourceWithDescription() throws Exception {
+    public void definesDeleteResourceWithDescriptionAndMoreResponses() throws Exception {
         assertThat(
-            BasicPath.mapAt(getSwagger(), "paths", "/store/order/{orderId}"),
+            BasicPath.mapAt(getSwagger(), "paths", "/store/order/{orderId}", "delete"),
             allOf(
                 stringInPath(is("For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"),
-                    "delete", "description")
+                    "description"),
+                stringInPath(is("Order not found"), "responses", "404", "description"),
+                stringInPath(is("Invalid ID supplied"), "responses", "400", "description")
             ));
     }
 

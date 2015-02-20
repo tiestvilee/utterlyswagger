@@ -5,8 +5,7 @@ import com.googlecode.totallylazy.Sequence;
 import com.googlecode.utterlyidle.*;
 import com.googlecode.utterlyidle.annotations.*;
 import com.googlecode.utterlyidle.bindings.actions.ResourceMethod;
-import com.utterlyswagger.annotations.Description;
-import com.utterlyswagger.annotations.Summary;
+import com.utterlyswagger.annotations.*;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
@@ -64,9 +63,7 @@ public class SwaggerResource {
             "produces", binding.produces().toList(),
             "summary", getSummary(annotations),
             "description", getDescription(annotations),
-            "responses", map(
-                "default", map(
-                    "description", "successful operation"))));
+            "responses", getResponses(annotations)));
     }
 
     private static String getSummary(Sequence<Annotation> annotations) {
@@ -77,9 +74,22 @@ public class SwaggerResource {
         return getAnnotationValue(annotations, "", Description.class, description -> ((Description) description).value());
     }
 
-    private static String getAnnotationValue(Sequence<Annotation> annotations, String defaultText, Class aClass, Callable1<Annotation, String> getValue) {
+    private static Map<String, Object> getResponses(Sequence<Annotation> annotations) {
+        Map<String, Object> defaultResponse = map(
+            "default", map(
+                "description", "successful operation"));
+
+        return getAnnotationValue(annotations, defaultResponse, ResponseDescriptions.class,
+            descriptions ->
+                map(
+                    sequence(((ResponseDescriptions) descriptions).value())
+                        .map(desc ->
+                            pair(desc.status(), (Object) map("description", desc.description())))));
+    }
+
+    private static <T> T getAnnotationValue(Sequence<Annotation> annotations, T defaultResult, Class aClass, Callable1<Annotation, T> getValue) {
         return annotations
             .find(annotation -> annotation.annotationType().equals(aClass))
-            .map(getValue).getOrElse(defaultText);
+            .map(getValue).getOrElse(defaultResult);
     }
 }
