@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="93965fd0-9ecb-4f31-8c67-d5ea7ba6da0d" name="Default" comment="TV: got path returning 'default response' and 'produces' fields.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/utterlyswagger/annotations/Description.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/utterlyswagger/annotations/Summary.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/com/utterlyswagger/petshop/ModuleJsonTest.java" afterPath="$PROJECT_DIR$/test/com/utterlyswagger/petshop/ModuleJsonTest.java" />
+    <list default="true" id="93965fd0-9ecb-4f31-8c67-d5ea7ba6da0d" name="Default" comment="TV: got path returning 'summary' field">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/com/utterlyswagger/petshop/application/PetShopResource.java" afterPath="$PROJECT_DIR$/test/com/utterlyswagger/petshop/application/PetShopResource.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java" afterPath="$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java" afterPath="$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java" />
@@ -33,11 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SwaggerResource.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SwaggerResource.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="538" max-vertical-offset="1254">
-              <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+            <state vertical-scroll-proportion="-0.10465116" vertical-offset="785" max-vertical-offset="1387">
+              <caret line="53" column="21" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -97,11 +94,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestPetShopSwagger.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TestPetShopSwagger.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6528239" vertical-offset="766" max-vertical-offset="1425">
-              <caret line="61" column="72" selection-start-line="61" selection-start-column="72" selection-end-line="61" selection-end-column="72" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1013" max-vertical-offset="1615">
+              <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -112,17 +109,9 @@
       <file leaf-file-name="swagger-human-readable.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/swagger-human-readable.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.964286" vertical-offset="626" max-vertical-offset="4085">
-              <caret line="574" column="26" selection-start-line="574" selection-start-column="26" selection-end-line="574" selection-end-column="26" />
+            <state vertical-scroll-proportion="-3.1206896" vertical-offset="8217" max-vertical-offset="11989">
+              <caret line="442" column="27" selection-start-line="442" selection-start-column="24" selection-end-line="442" selection-end-column="137" />
               <folding>
-                <element signature="n#!!block;n#/pet#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-                <element signature="n#!!block;n#/pet/findByStatus#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-                <element signature="n#!!block;n#/pet/findByTags#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-                <element signature="n#!!block;n#/pet/{petId}#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-                <element signature="n#!!block;n#/pet/{petId}/uploadImage#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-                <element signature="n#!!block;n#/store/inventory#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-                <element signature="n#!!block;n#/store/order#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-                <element signature="n#!!block;n#/store/order/{orderId}#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
                 <element signature="n#!!block;n#/user#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
                 <element signature="n#!!block;n#/user/createWithArray#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
                 <element signature="n#!!block;n#/user/createWithList#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
@@ -137,7 +126,7 @@
         <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/application/PetShopResource.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="753" max-vertical-offset="1425">
-              <caret line="62" column="7" selection-start-line="62" selection-start-column="7" selection-end-line="62" selection-end-column="7" />
+              <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -180,10 +169,10 @@
         <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/application/PetShopModule.java" />
         <option value="$PROJECT_DIR$/src/com/utterlyswagger/annotations/Description.java" />
         <option value="$PROJECT_DIR$/src/com/utterlyswagger/annotations/Summary.java" />
-        <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/application/PetShopResource.java" />
         <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/ModuleJsonTest.java" />
-        <option value="$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java" />
         <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java" />
+        <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/application/PetShopResource.java" />
+        <option value="$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java" />
       </list>
     </option>
   </component>
@@ -482,7 +471,13 @@
       </option>
       <envs />
       <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
@@ -748,7 +743,13 @@
       <option name="project" value="LOCAL" />
       <updated>1424446519130</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="TV: got path returning 'summary' field">
+      <created>1424448000823</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1424448000823</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -765,7 +766,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32953367" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32953367" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -804,19 +805,13 @@
     <MESSAGE value="TV: test for &quot;paths&quot; (with stupidest thing to pass the test...)" />
     <MESSAGE value="TV: get &quot;paths&quot; test working, using Resources object" />
     <MESSAGE value="TV: got path returning 'default response' and 'produces' fields." />
-    <option name="LAST_COMMIT_MESSAGE" value="TV: got path returning 'default response' and 'produces' fields." />
+    <MESSAGE value="TV: got path returning 'summary' field" />
+    <option name="LAST_COMMIT_MESSAGE" value="TV: got path returning 'summary' field" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java</url>
-          <line>25</line>
-          <properties />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="1" />
     </breakpoint-manager>
     <watches-manager />
@@ -1095,16 +1090,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/application/PetShopResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="753" max-vertical-offset="1425">
-          <caret line="62" column="7" selection-start-line="62" selection-start-column="7" selection-end-line="62" selection-end-column="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/ExampleJsonTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="703">
@@ -1127,17 +1112,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/swagger-human-readable.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.964286" vertical-offset="626" max-vertical-offset="4085">
-          <caret line="574" column="26" selection-start-line="574" selection-start-column="26" selection-end-line="574" selection-end-column="26" />
+        <state vertical-scroll-proportion="-3.1206896" vertical-offset="8217" max-vertical-offset="11989">
+          <caret line="442" column="27" selection-start-line="442" selection-start-column="24" selection-end-line="442" selection-end-column="137" />
           <folding>
-            <element signature="n#!!block;n#/pet#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-            <element signature="n#!!block;n#/pet/findByStatus#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-            <element signature="n#!!block;n#/pet/findByTags#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-            <element signature="n#!!block;n#/pet/{petId}#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-            <element signature="n#!!block;n#/pet/{petId}/uploadImage#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-            <element signature="n#!!block;n#/store/inventory#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-            <element signature="n#!!block;n#/store/order#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
-            <element signature="n#!!block;n#/store/order/{orderId}#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
             <element signature="n#!!block;n#/user#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
             <element signature="n#!!block;n#/user/createWithArray#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
             <element signature="n#!!block;n#/user/createWithList#0;n#!!block;n#paths#0;n#!!top" expanded="false" />
@@ -1147,21 +1124,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="538" max-vertical-offset="1254">
-          <caret line="67" column="0" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6528239" vertical-offset="766" max-vertical-offset="1425">
-          <caret line="61" column="72" selection-start-line="61" selection-start-column="72" selection-end-line="61" selection-end-column="72" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1013" max-vertical-offset="1615">
+          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/application/PetShopResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="753" max-vertical-offset="1425">
+          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.10465116" vertical-offset="785" max-vertical-offset="1387">
+          <caret line="53" column="21" selection-start-line="53" selection-start-column="21" selection-end-line="53" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>

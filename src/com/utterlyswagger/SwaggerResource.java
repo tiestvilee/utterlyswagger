@@ -4,6 +4,7 @@ import com.googlecode.totallylazy.Sequence;
 import com.googlecode.utterlyidle.*;
 import com.googlecode.utterlyidle.annotations.*;
 import com.googlecode.utterlyidle.bindings.actions.ResourceMethod;
+import com.utterlyswagger.annotations.Description;
 import com.utterlyswagger.annotations.Summary;
 
 import java.lang.annotation.Annotation;
@@ -54,13 +55,14 @@ public class SwaggerResource {
             sequence(binding.action().metaData())
                 .filter(metaData -> metaData instanceof ResourceMethod)
                 .map(metaData -> (ResourceMethod) metaData)
-                .map(resourceMethod -> resourceMethod.value())
+                .map(ResourceMethod::value)
                 .head()
                 .getAnnotations());
 
         return map(binding.httpMethod().toLowerCase(), map(
             "produces", binding.produces().toList(),
             "summary", getSummary(annotations),
+            "description", getDescription(annotations),
             "responses", map(
                 "default", map(
                     "description", "successful operation"))));
@@ -70,5 +72,11 @@ public class SwaggerResource {
         return annotations
             .find(annotation -> annotation.annotationType().equals(Summary.class))
             .map(summary -> ((Summary) summary).value()).getOrElse("No summary supplied");
+    }
+
+    private static String getDescription(Sequence<Annotation> annotations) {
+        return annotations
+            .find(annotation -> annotation.annotationType().equals(Description.class))
+            .map(summary -> ((Description) summary).value()).getOrElse("");
     }
 }

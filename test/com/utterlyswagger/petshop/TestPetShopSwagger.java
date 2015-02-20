@@ -65,5 +65,15 @@ public abstract class TestPetShopSwagger {
             ));
     }
 
+    @Test
+    public void definesDeleteResourceWithDescription() throws Exception {
+        assertThat(
+            BasicPath.mapAt(getSwagger(), "paths", "/store/order/{orderId}"),
+            allOf(
+                stringInPath(is("For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"),
+                    "delete", "description")
+            ));
+    }
+
     protected abstract Map<String, Object> getSwagger() throws Exception;
 }

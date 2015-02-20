@@ -35,8 +35,9 @@ public class PetShopResource {
     @Path("/store/order")
     public Response order() { return null; }
 
-    @GET
+    @DELETE
     @Path("/store/order/{orderId}")
+    @Description("For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors")
     public Response orderId() { return null; }
 
     @GET
@@ -58,7 +59,6 @@ public class PetShopResource {
     @GET
     @Path("/user/logout")
     @Produces({"application/json", "application/xml"})
-    @Description("")
     @Summary("Logs out current logged in user session")
     public Response logout() { return null; }
 
