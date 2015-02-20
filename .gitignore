@@ -12,5 +12,5 @@ hs_err_pid*
 build/artifacts
 
 # this file changes constantly... so I'm going to ignore it
-./idea/workspace.xml
+.idea/workspace.xml
 
