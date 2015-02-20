@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="93965fd0-9ecb-4f31-8c67-d5ea7ba6da0d" name="Default" comment="TV: fixes to get things working with ANT">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java" afterPath="$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java" afterPath="$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="utterlyswagger.iws" />
@@ -27,12 +29,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
+      <file leaf-file-name="TestPetShopSwagger.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="152">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.6796748" vertical-offset="0" max-vertical-offset="615">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -40,79 +44,9 @@
       <file leaf-file-name="swagger-human-readable.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/swagger-human-readable.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-450.57144" vertical-offset="0" max-vertical-offset="15485">
-              <caret line="664" column="5" selection-start-line="664" selection-start-column="5" selection-end-line="664" selection-end-column="5" />
+            <state vertical-scroll-proportion="-8.142858" vertical-offset="0" max-vertical-offset="15485">
+              <caret line="12" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExampleJsonTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/ExampleJsonTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="703">
-              <caret line="19" column="11" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#955#956#0" expanded="true" />
-                <element signature="e#1007#1008#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ModuleJsonTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/ModuleJsonTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="513">
-              <caret line="17" column="44" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TestPetShopSwagger.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="513">
-              <caret line="16" column="59" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BasicPath.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/path/BasicPath.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="722">
-              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SafePath.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/path/SafePath.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37873754" vertical-offset="228" max-vertical-offset="1045">
-              <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PathAssertions.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/path/PathAssertions.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="912">
-              <caret line="11" column="42" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -129,7 +63,6 @@
         <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/PetShopApplication.java" />
         <option value="$PROJECT_DIR$/test/com/utterlyswagger/SwaggerModule.java" />
         <option value="$PROJECT_DIR$/src/com/utterlyswagger/SwaggerModule.java" />
-        <option value="$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java" />
         <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/swagger-human-readable.json" />
         <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/path/BasicPath.java" />
         <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/path/SafePath.java" />
@@ -138,6 +71,8 @@
         <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/PetShopTest.java" />
         <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestExampleJson.java" />
         <option value="$PROJECT_DIR$/build/macros.xml" />
+        <option value="$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java" />
+        <option value="$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java" />
       </list>
     </option>
   </component>
@@ -651,14 +586,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/swagger.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="114">
-          <caret line="0" column="13207" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="13207" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/utterlyswagger/SwaggerModule.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="361">
@@ -679,28 +606,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="494">
-          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
-          <folding>
-            <marker date="1424433555000" expanded="true" signature="-1:-1" placeholder="@{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/swagger-human-readable.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-450.57144" vertical-offset="0" max-vertical-offset="15485">
-          <caret line="664" column="5" selection-start-line="664" selection-start-column="5" selection-end-line="664" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -721,16 +630,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="513">
           <caret line="17" column="44" selection-start-line="17" selection-start-column="44" selection-end-line="17" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="513">
-          <caret line="16" column="59" selection-start-line="16" selection-start-column="59" selection-end-line="16" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -773,9 +672,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/path/SafePath.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37873754" vertical-offset="228" max-vertical-offset="1045">
+        <state vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="1045">
           <caret line="32" column="32" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/swagger.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="114">
+          <caret line="0" column="13207" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="13207" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/utterlyswagger/SwaggerResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="532">
+          <caret line="26" column="27" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/swagger-human-readable.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.142858" vertical-offset="0" max-vertical-offset="15485">
+          <caret line="12" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/com/utterlyswagger/petshop/TestPetShopSwagger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6796748" vertical-offset="0" max-vertical-offset="615">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
