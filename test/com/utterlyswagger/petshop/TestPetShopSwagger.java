@@ -4,9 +4,11 @@ import org.junit.Test;
 
 import java.util.Map;
 
+import static com.utterlyswagger.petshop.path.PathAssertions.mapInPathKeys;
 import static com.utterlyswagger.petshop.path.PathAssertions.stringInPath;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.AllOf.allOf;
 
 public abstract class TestPetShopSwagger {
@@ -35,6 +37,20 @@ public abstract class TestPetShopSwagger {
 //                stringInPath(is("Apache 2.0"), "info", "license", "name"),
 //                stringInPath(is("http://www.apache.org/licenses/LICENSE-2.0.html"), "info", "license", "url")
             ));
+    }
+
+    @Test
+    public void definesPaths() throws Exception {
+        assertThat(
+            getSwagger(),
+            mapInPathKeys(contains(
+                    "/pet", "/pet/findByStatus", "/pet/findByTags",
+                    "/pet/{petId}", "/pet/{petId}/uploadImage", "/store/inventory",
+                    "/store/order", "/store/order/{orderId}", "/user",
+                    "/user/createWithArray", "/user/createWithList", "/user/login",
+                    "/user/logout", "/user/{username}"),
+                "paths")
+        );
     }
 
     protected abstract Map<String, Object> getSwagger() throws Exception;
