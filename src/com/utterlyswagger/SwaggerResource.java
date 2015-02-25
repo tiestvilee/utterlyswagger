@@ -1,7 +1,7 @@
 package com.utterlyswagger;
 
-import com.googlecode.utterlyidle.*;
-import com.googlecode.utterlyidle.annotations.*;
+import com.googlecode.utterlyidle.Resources;
+import com.googlecode.utterlyidle.Response;
 
 import static com.googlecode.totallylazy.json.Json.json;
 import static com.googlecode.utterlyidle.ResponseBuilder.response;
@@ -18,10 +18,7 @@ public class SwaggerResource {
         this.resources = resources;
     }
 
-    @GET
-    @Path("/v2/swagger.json")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response swagIt() {
+    public Response version2() {
         return response(OK)
             .entity(json(swagger(info, resources)))
             .build();

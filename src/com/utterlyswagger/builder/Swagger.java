@@ -45,7 +45,7 @@ public class Swagger {
     }
 
     private static String summary(Sequence<Annotation> annotations) {
-        return getAnnotationValue(annotations, "No summary supplied", Summary.class, summary -> ((Summary) summary).value());
+        return getAnnotationValue(annotations, "", Summary.class, summary -> ((Summary) summary).value());
     }
 
     private static String description(Sequence<Annotation> annotations) {
@@ -78,7 +78,8 @@ public class Swagger {
     private static <T> T getAnnotationValue(Sequence<Annotation> annotations, T defaultResult, Class aClass, Callable1<Annotation, T> getValue) {
         return annotations
             .find(annotation -> annotation.annotationType().equals(aClass))
-            .map(getValue).getOrElse(defaultResult);
+            .map(getValue)
+            .getOrElse(defaultResult);
     }
 
     private static Map<String, Map<String, Object>> foldInOperationObjects(Map<String, Map<String, Object>> acc, Pair<String, Pair<String, Object>> pair) {

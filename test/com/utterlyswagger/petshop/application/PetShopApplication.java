@@ -9,7 +9,7 @@ public class PetShopApplication extends RestApplication {
     public PetShopApplication(BasePath basePath) {
         super(basePath);
 
-        add(new SwaggerModule(new SwaggerInfo("Swagger Petstore", "1.0.0")));
+        add(new SwaggerModule(new SwaggerInfo("Swagger Petstore", "1.0.0"), "/petshop/swagger"));
         add(new PetShopModule());
     }
 }
