@@ -1,26 +1,51 @@
 package com.utterlyswagger.builder;
 
-import com.googlecode.totallylazy.*;
+import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.Option;
+import com.googlecode.totallylazy.Pair;
+import com.googlecode.totallylazy.Sequence;
 import com.googlecode.utterlyidle.Binding;
 import com.googlecode.utterlyidle.Resources;
 import com.googlecode.utterlyidle.bindings.actions.ResourceMethod;
 import com.utterlyswagger.SwaggerInfo;
-import com.utterlyswagger.annotations.*;
+import com.utterlyswagger.annotations.Description;
+import com.utterlyswagger.annotations.ResponseDescriptions;
+import com.utterlyswagger.annotations.Summary;
 
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import static com.googlecode.totallylazy.Maps.map;
+import static com.googlecode.totallylazy.Maps.pairs;
 import static com.googlecode.totallylazy.Pair.pair;
 import static com.googlecode.totallylazy.Sequences.sequence;
+import static com.utterlyswagger.SwaggerInfo.BASE_PATH;
+import static com.utterlyswagger.SwaggerInfo.HOST;
 
 public class Swagger {
     public static Map<String, Object> swagger(SwaggerInfo info, Resources resources) {
-        return map(
+        return removeOptions(map(
             "swagger", "2.0",
             "info", info.asMap(),
-            "paths", paths(resources)
-        );
+            "paths", paths(resources),
+            "basePath", info.get(BASE_PATH),
+            "host", info.get(HOST)
+        ));
+    }
+
+    private static Map<String, Object> removeOptions(Map<String, Object> map) {
+        return map(pairs(map)
+            .foldLeft(sequence(),
+                (acc, pair) -> {
+                    if (pair.getValue() instanceof Option) {
+                        return ((Option<String>) pair
+                            .getValue())
+                            .map(value -> acc.append(pair(pair.first(), value)))
+                            .getOrElse(acc);
+                    }
+                    return acc.append(pair);
+                }
+            ));
     }
 
     public static Map<String, Map<String, Object>> paths(Resources resources) {
