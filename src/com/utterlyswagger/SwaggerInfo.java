@@ -27,4 +27,24 @@ public class SwaggerInfo {
     public Option<String> get(String key) {
         return option(optionalData.get(key));
     }
+
+    public Option<String> description() {
+        return get(DESCRIPTION);
+    }
+
+    public Option<String> termsOfService() {
+        return get(TERMS_OF_SERVICE);
+    }
+
+    public Option<String> contactEmail() {
+        return get(CONTACT_EMAIL);
+    }
+
+    public Option<String> licenceName() {
+        return get(LICENSE_NAME);
+    }
+
+    public Option<String> licenceUrl() {
+        return get(LICENSE_URL);
+    }
 }

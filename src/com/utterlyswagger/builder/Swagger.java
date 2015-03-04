@@ -17,10 +17,8 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import static com.googlecode.totallylazy.Maps.map;
-import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.Pair.pair;
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static com.utterlyswagger.SwaggerInfo.*;
 
 public class Swagger {
 
@@ -36,23 +34,17 @@ public class Swagger {
         );
     }
 
-    private static Pair<String, Object> optionalPair(String key, Option<String> value) {
-        return value
-            .map(actualValue -> pair(key, (Object) actualValue))
-            .getOrElse(DELETEME);
-    }
-
     public static Map<String, Object> asMap(SwaggerInfo info) {
         return mapWithoutDeleteMe(
             pair("title", (Object) info.title),
             pair("version", info.apiVersion),
-            getKeyOrDelete(info, DESCRIPTION, "description"),
-            getKeyOrDelete(info, TERMS_OF_SERVICE, "termsOfService"),
+            optionalPair("description", info.description()),
+            optionalPair("termsOfService", info.termsOfService()),
             pair("contact", mapWithoutDeleteMe(
-                getKeyOrDelete(info, CONTACT_EMAIL, "email"))),
+                optionalPair("email", info.contactEmail()))),
             pair("license", mapWithoutDeleteMe(
-                getKeyOrDelete(info, LICENSE_NAME, "name"),
-                getKeyOrDelete(info, LICENSE_URL, "url"))));
+                optionalPair("name", info.licenceName()),
+                optionalPair("url", info.licenceUrl()))));
     }
 
     private static Map<String, Object> mapWithoutDeleteMe(Pair<String, Object>... pairs) {
@@ -61,9 +53,9 @@ public class Swagger {
                 .filter(pair -> pair != DELETEME));
     }
 
-    private static Pair<String, Object> getKeyOrDelete(SwaggerInfo info, String key, String jsonKey) {
-        return option(info.optionalData.get(key))
-            .map(value -> pair(jsonKey, (Object) value))
+    private static Pair<String, Object> optionalPair(String key, Option<String> value) {
+        return value
+            .map(actualValue -> pair(key, (Object) actualValue))
             .getOrElse(DELETEME);
     }
 
