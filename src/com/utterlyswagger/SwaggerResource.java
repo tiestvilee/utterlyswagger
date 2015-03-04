@@ -12,15 +12,17 @@ public class SwaggerResource {
 
     private final SwaggerInfo info;
     private final Resources resources;
+    private final TargetEndpointBaseLocation targetEndpointBaseLocation;
 
-    public SwaggerResource(SwaggerInfo info, Resources resources) {
+    public SwaggerResource(SwaggerInfo info, Resources resources, TargetEndpointBaseLocation targetEndpointBaseLocation) {
         this.info = info;
         this.resources = resources;
+        this.targetEndpointBaseLocation = targetEndpointBaseLocation;
     }
 
     public Response version2() {
         return response(OK)
-            .entity(json(swagger(info, resources)))
+            .entity(json(swagger(info, targetEndpointBaseLocation, resources)))
             .build();
     }
 

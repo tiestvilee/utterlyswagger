@@ -13,14 +13,16 @@ import static com.googlecode.utterlyidle.dsl.BindingBuilder.get;
 public class SwaggerModule implements ResourcesModule, ApplicationScopedModule {
 
     private final SwaggerInfo info;
+    private final TargetEndpointBaseLocation targetEndpointBaseLocation;
     private final String basePath;
 
-    public SwaggerModule(SwaggerInfo info) {
-        this(info, "/swagger");
+    public SwaggerModule(SwaggerInfo info, TargetEndpointBaseLocation targetEndpointBaseLocation) {
+        this(info, targetEndpointBaseLocation, "/swagger");
     }
 
-    public SwaggerModule(SwaggerInfo info, String basePath) {
+    public SwaggerModule(SwaggerInfo info, TargetEndpointBaseLocation targetEndpointBaseLocation, String basePath) {
         this.info = info;
+        this.targetEndpointBaseLocation = targetEndpointBaseLocation;
         this.basePath = basePath;
     }
 
@@ -36,6 +38,8 @@ public class SwaggerModule implements ResourcesModule, ApplicationScopedModule {
 
     @Override
     public Container addPerApplicationObjects(Container container) throws Exception {
-        return container.addInstance(SwaggerInfo.class, info);
+        return container
+            .addInstance(SwaggerInfo.class, info)
+            .addInstance(TargetEndpointBaseLocation.class, targetEndpointBaseLocation);
     }
 }

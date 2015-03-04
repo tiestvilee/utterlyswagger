@@ -8,6 +8,7 @@ import com.googlecode.utterlyidle.Binding;
 import com.googlecode.utterlyidle.Resources;
 import com.googlecode.utterlyidle.bindings.actions.ResourceMethod;
 import com.utterlyswagger.SwaggerInfo;
+import com.utterlyswagger.TargetEndpointBaseLocation;
 import com.utterlyswagger.annotations.Description;
 import com.utterlyswagger.annotations.ResponseDescriptions;
 import com.utterlyswagger.annotations.Summary;
@@ -16,37 +17,56 @@ import java.lang.annotation.Annotation;
 import java.util.Map;
 
 import static com.googlecode.totallylazy.Maps.map;
-import static com.googlecode.totallylazy.Maps.pairs;
+import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.Pair.pair;
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static com.utterlyswagger.SwaggerInfo.BASE_PATH;
-import static com.utterlyswagger.SwaggerInfo.HOST;
+import static com.utterlyswagger.SwaggerInfo.*;
 
 public class Swagger {
-    public static Map<String, Object> swagger(SwaggerInfo info, Resources resources) {
-        return removeOptions(map(
-            "swagger", "2.0",
-            "info", info.asMap(),
-            "paths", paths(resources),
-            "basePath", info.get(BASE_PATH),
-            "host", info.get(HOST)
-        ));
+
+    public static final Pair<String, Object> DELETEME = pair("deleteme", "");
+
+    public static Map<String, Object> swagger(SwaggerInfo info, TargetEndpointBaseLocation targetEndpointBaseLocation, Resources resources) {
+        return mapWithoutDeleteMe(
+            pair("swagger", "2.0"),
+            pair("info", asMap(info)),
+            pair("paths", paths(resources)),
+            optionalPair("basePath", targetEndpointBaseLocation.basePath),
+            optionalPair("host", targetEndpointBaseLocation.host)
+        );
     }
 
-    private static Map<String, Object> removeOptions(Map<String, Object> map) {
-        return map(pairs(map)
-            .foldLeft(sequence(),
-                (acc, pair) -> {
-                    if (pair.getValue() instanceof Option) {
-                        return ((Option<String>) pair
-                            .getValue())
-                            .map(value -> acc.append(pair(pair.first(), value)))
-                            .getOrElse(acc);
-                    }
-                    return acc.append(pair);
-                }
-            ));
+    private static Pair<String, Object> optionalPair(String key, Option<String> value) {
+        return value
+            .map(actualValue -> pair(key, (Object) actualValue))
+            .getOrElse(DELETEME);
     }
+
+    public static Map<String, Object> asMap(SwaggerInfo info) {
+        return mapWithoutDeleteMe(
+            pair("title", (Object) info.title),
+            pair("version", info.apiVersion),
+            getKeyOrDelete(info, DESCRIPTION, "description"),
+            getKeyOrDelete(info, TERMS_OF_SERVICE, "termsOfService"),
+            pair("contact", mapWithoutDeleteMe(
+                getKeyOrDelete(info, CONTACT_EMAIL, "email"))),
+            pair("license", mapWithoutDeleteMe(
+                getKeyOrDelete(info, LICENSE_NAME, "name"),
+                getKeyOrDelete(info, LICENSE_URL, "url"))));
+    }
+
+    private static Map<String, Object> mapWithoutDeleteMe(Pair<String, Object>... pairs) {
+        return map(
+            sequence(pairs)
+                .filter(pair -> pair != DELETEME));
+    }
+
+    private static Pair<String, Object> getKeyOrDelete(SwaggerInfo info, String key, String jsonKey) {
+        return option(info.optionalData.get(key))
+            .map(value -> pair(jsonKey, (Object) value))
+            .getOrElse(DELETEME);
+    }
+
 
     public static Map<String, Map<String, Object>> paths(Resources resources) {
         return sequence(resources)

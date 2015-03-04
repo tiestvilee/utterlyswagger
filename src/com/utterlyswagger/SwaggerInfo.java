@@ -4,13 +4,16 @@ import com.googlecode.totallylazy.Option;
 
 import java.util.Map;
 
-import static com.googlecode.totallylazy.Maps.map;
 import static com.googlecode.totallylazy.Option.option;
 
 public class SwaggerInfo {
 
-    public static final String BASE_PATH = "basePath";
-    public static final String HOST = "host";
+    public static final String DESCRIPTION = "description";
+    public static final String TERMS_OF_SERVICE = "termsOfService";
+    public static final String CONTACT_EMAIL = "contactEmail";
+    public static final String LICENSE_NAME = "licenceName";
+    public static final String LICENSE_URL = "licenceUrl";
+
     public final String title;
     public final String apiVersion;
     public final Map<String, String> optionalData;
@@ -19,10 +22,6 @@ public class SwaggerInfo {
         this.title = title;
         this.apiVersion = apiVersion;
         this.optionalData = optionalData;
-    }
-
-    public Map<String, Object> asMap() {
-        return map("title", title, "version", apiVersion);
     }
 
     public Option<String> get(String key) {
