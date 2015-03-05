@@ -12,6 +12,8 @@ import java.util.Map;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class PathAssertions {
+    public static Matcher<? super Object> objectInPath(Matcher<? super Object> valueMatcher, Object... path) { return new PathMatcher<>(valueMatcher, path); }
+
     public static Matcher<? super Object> stringInPath(Matcher<? super String> valueMatcher, Object... path) { return new PathMatcher<>(valueMatcher, path); }
 
     public static Matcher<? super Object> integerInPath(Matcher<? super Integer> valueMatcher, Object... path) { return new PathMatcher<>(valueMatcher, path); }

@@ -1,8 +1,17 @@
 package com.utterlyswagger.petshop.application;
 
+import com.googlecode.totallylazy.Option;
 import com.googlecode.utterlyidle.Response;
-import com.googlecode.utterlyidle.annotations.*;
-import com.utterlyswagger.annotations.*;
+import com.googlecode.utterlyidle.annotations.DELETE;
+import com.googlecode.utterlyidle.annotations.FormParam;
+import com.googlecode.utterlyidle.annotations.GET;
+import com.googlecode.utterlyidle.annotations.POST;
+import com.googlecode.utterlyidle.annotations.Path;
+import com.googlecode.utterlyidle.annotations.PathParam;
+import com.googlecode.utterlyidle.annotations.Produces;
+import com.utterlyswagger.annotations.Description;
+import com.utterlyswagger.annotations.ResponseDescription;
+import com.utterlyswagger.annotations.Summary;
 
 public class PetShopResource {
 
@@ -20,7 +29,11 @@ public class PetShopResource {
 
     @GET
     @Path("/pet/{petId}")
-    public Response petId() { return null; }
+    public Response petId(@PathParam("petId") String petId) { return null; }
+
+    @POST
+    @Path("/pet/{petId}")
+    public Response updatePetId(@PathParam("petId") String petId, @FormParam("name") Option<String> name, @FormParam("status") Option<String> status) { return null; }
 
     @GET
     @Path("/pet/{petId}/uploadImage")

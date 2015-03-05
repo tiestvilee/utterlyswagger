@@ -6,6 +6,7 @@ import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.Pair;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.utterlyidle.Binding;
+import com.googlecode.utterlyidle.NamedParameter;
 import com.googlecode.utterlyidle.Resources;
 import com.googlecode.utterlyidle.bindings.actions.ResourceMethod;
 import com.utterlyswagger.SwaggerInfo;
@@ -73,10 +74,22 @@ public class SwaggerV2 {
 
     private static Map<String, Object> operationObject(Binding binding, Sequence<Annotation> annotations) {
         return map(
-            "produces", binding.produces().toList(),
             "summary", summary(annotations),
             "description", description(annotations),
+            "produces", binding.produces().toList(),
+            "parameters", parameters(binding.namedParameters()),
             "responses", responses(annotations));
+    }
+
+    private static Sequence<Map<String, Object>> parameters(Sequence<NamedParameter> parameters) {
+        return parameters
+            .map(param -> parameter(param));
+    }
+
+    private static Map<String, Object> parameter(NamedParameter param) {
+        return map(
+            "name", param.name()
+        );
     }
 
     private static String summary(Sequence<Annotation> annotations) {
@@ -92,12 +105,10 @@ public class SwaggerV2 {
             "default", map(
                 "description", "successful operation"));
 
-        return getAnnotationValue(annotations, defaultResponse, ResponseDescriptions.class,
-            descriptions ->
-                map(
-                    sequence(((ResponseDescriptions) descriptions).value())
-                        .map(desc ->
-                            pair(desc.status(), (Object) map("description", desc.description())))));
+        return getAnnotationValue(annotations, defaultResponse, ResponseDescriptions.class, descriptions ->
+            map(sequence(((ResponseDescriptions) descriptions).value())
+                .map(desc ->
+                    pair(desc.status(), (Object) map("description", desc.description())))));
     }
 
     private static Sequence<Annotation> annotationsFor(Binding binding) {
