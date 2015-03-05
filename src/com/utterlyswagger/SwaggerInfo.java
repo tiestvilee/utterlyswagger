@@ -2,49 +2,77 @@ package com.utterlyswagger;
 
 import com.googlecode.totallylazy.Option;
 
-import java.util.Map;
-
-import static com.googlecode.totallylazy.Option.option;
+import static com.googlecode.totallylazy.Option.none;
+import static com.googlecode.totallylazy.Option.some;
 
 public class SwaggerInfo {
 
-    public static final String DESCRIPTION = "description";
-    public static final String TERMS_OF_SERVICE = "termsOfService";
-    public static final String CONTACT_EMAIL = "contactEmail";
-    public static final String LICENSE_NAME = "licenceName";
-    public static final String LICENSE_URL = "licenceUrl";
-
     public final String title;
     public final String apiVersion;
-    public final Map<String, String> optionalData;
+    public final Option<String> description;
+    public final Option<String> termsOfService;
+    public final Option<String> contactEmail;
+    public final Option<String> licenceName;
+    public final Option<String> licenceUrl;
 
-    public SwaggerInfo(String title, String apiVersion, Map<String, String> optionalData) {
+
+    public SwaggerInfo(String title, String apiVersion) {
         this.title = title;
         this.apiVersion = apiVersion;
-        this.optionalData = optionalData;
+        description = none();
+        termsOfService = none();
+        contactEmail = none();
+        licenceName = none();
+        licenceUrl = none();
     }
 
-    public Option<String> get(String key) {
-        return option(optionalData.get(key));
+    public SwaggerInfo(String title, String apiVersion, Option<String> description, Option<String> termsOfService, Option<String> contactEmail, Option<String> licenceName, Option<String> licenceUrl) {
+        this.title = title;
+        this.apiVersion = apiVersion;
+        this.description = description;
+        this.termsOfService = termsOfService;
+        this.contactEmail = contactEmail;
+        this.licenceName = licenceName;
+        this.licenceUrl = licenceUrl;
     }
 
     public Option<String> description() {
-        return get(DESCRIPTION);
+        return description;
+    }
+
+    public SwaggerInfo description(String newValue) {
+        return new SwaggerInfo(title, apiVersion, some(newValue), termsOfService, contactEmail, licenceName, licenceUrl);
     }
 
     public Option<String> termsOfService() {
-        return get(TERMS_OF_SERVICE);
+        return termsOfService;
+    }
+
+    public SwaggerInfo termsOfService(String newValue) {
+        return new SwaggerInfo(title, apiVersion, description, some(newValue), contactEmail, licenceName, licenceUrl);
     }
 
     public Option<String> contactEmail() {
-        return get(CONTACT_EMAIL);
+        return contactEmail;
+    }
+
+    public SwaggerInfo contactEmail(String newValue) {
+        return new SwaggerInfo(title, apiVersion, description, termsOfService, some(newValue), licenceName, licenceUrl);
     }
 
     public Option<String> licenceName() {
-        return get(LICENSE_NAME);
+        return licenceName;
+    }
+
+    public SwaggerInfo licenceName(String newValue) {
+        return new SwaggerInfo(title, apiVersion, description, termsOfService, contactEmail, some(newValue), licenceUrl);
     }
 
     public Option<String> licenceUrl() {
-        return get(LICENSE_URL);
+        return licenceUrl;
+    }
+
+    public SwaggerInfo licenceUrl(String newValue) {
+        return new SwaggerInfo(title, apiVersion, description, termsOfService, contactEmail, licenceName, some(newValue));
     }
 }
