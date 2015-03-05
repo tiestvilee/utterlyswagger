@@ -10,9 +10,9 @@ import java.util.Map;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ExampleJsonTest extends TestPetShopSwagger {
+public class SwaggerV2ExampleJsonTest extends TestPetShopSwaggerV2 {
 
-    private final static String petStoreSwaggerJson = Strings.string(ExampleJsonTest.class.getResourceAsStream("swagger.json"));
+    private final static String petStoreSwaggerJson = Strings.string(SwaggerV2ExampleJsonTest.class.getResourceAsStream("swagger_v2.json"));
 
     @SuppressWarnings("UnusedDeclaration")
     // run this method if you want to check the test json against the real thing

@@ -1,6 +1,8 @@
 package com.utterlyswagger.petshop.path;
 
 import com.googlecode.totallylazy.Unchecked;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 
@@ -19,6 +21,8 @@ public class PathAssertions {
     public static Matcher<? super Object> mapInPathKeys(Matcher<? super Collection<String>> valueMatcher, Object... path) {
         return new KeyPathMatcher(valueMatcher, path);
     }
+
+    public static Matcher<? super Object> nothingInPath(Object... path) { return new NoPathMatcher(path); }
 
     public static class PathMatcher<T> extends FeatureMatcher<Object, T> {
         private final java.lang.Object[] path;
@@ -60,7 +64,7 @@ public class PathAssertions {
             return
                 SafePath.objectAt(actual, path)
                     .map(Unchecked::<Map>cast)
-                    .map(map -> map.keySet())
+                    .map(Map::keySet)
                     .map(Unchecked::<Collection<String>>cast)
                     .getOrElse(() -> {
                         throw new AssertionError("Didn't find value at path: " + pathToString(path));
@@ -69,5 +73,30 @@ public class PathAssertions {
 
         public static String pathToString(Object[] path) {return "[/" + sequence(path).toString("/") + "]";}
 
+    }
+
+    public static class NoPathMatcher extends BaseMatcher<Object> {
+        private final java.lang.Object[] path;
+
+        public NoPathMatcher(Object... path) {
+            this.path = path;
+        }
+
+        public static String pathToString(Object[] path) {return "[/" + sequence(path).toString("/") + "]";}
+
+        @Override
+        public boolean matches(Object o) {
+            return SafePath.objectAt(o, path).isEmpty();
+        }
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText("path " + pathToString(path) + " is empty");
+        }
+
+        @Override
+        public void describeMismatch(Object item, Description description) {
+            description.appendText("yet it had a value of ").appendValue(SafePath.objectAt(item, path).get());
+        }
     }
 }

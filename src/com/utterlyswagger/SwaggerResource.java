@@ -6,7 +6,7 @@ import com.googlecode.utterlyidle.Response;
 import static com.googlecode.totallylazy.json.Json.json;
 import static com.googlecode.utterlyidle.ResponseBuilder.response;
 import static com.googlecode.utterlyidle.Status.OK;
-import static com.utterlyswagger.builder.Swagger.swagger;
+import static com.utterlyswagger.builder.SwaggerV2.swagger;
 
 public class SwaggerResource {
 

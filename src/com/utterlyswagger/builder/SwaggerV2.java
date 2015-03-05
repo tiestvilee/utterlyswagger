@@ -1,6 +1,7 @@
 package com.utterlyswagger.builder;
 
 import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.None;
 import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.Pair;
 import com.googlecode.totallylazy.Sequence;
@@ -16,47 +17,44 @@ import com.utterlyswagger.annotations.Summary;
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
+import static com.googlecode.totallylazy.Callables.when;
 import static com.googlecode.totallylazy.Maps.map;
 import static com.googlecode.totallylazy.Pair.pair;
+import static com.googlecode.totallylazy.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
-public class Swagger {
-
-    public static final Pair<String, Object> DELETEME = pair("deleteme", "");
+public class SwaggerV2 {
 
     public static Map<String, Object> swagger(SwaggerInfo info, TargetEndpointBaseLocation targetEndpointBaseLocation, Resources resources) {
-        return mapWithoutDeleteMe(
+        return mapWithoutOptions(
             pair("swagger", "2.0"),
-            pair("info", asMap(info)),
+            pair("info", swaggerInfo(info)),
             pair("paths", paths(resources)),
-            optionalPair("basePath", targetEndpointBaseLocation.basePath),
-            optionalPair("host", targetEndpointBaseLocation.host)
+            pair("basePath", (Object) targetEndpointBaseLocation.basePath),
+            pair("host", (Object) targetEndpointBaseLocation.host)
         );
     }
 
-    public static Map<String, Object> asMap(SwaggerInfo info) {
-        return mapWithoutDeleteMe(
+    public static Map<String, Object> swaggerInfo(SwaggerInfo info) {
+        return mapWithoutOptions(
             pair("title", (Object) info.title),
             pair("version", info.apiVersion),
-            optionalPair("description", info.description()),
-            optionalPair("termsOfService", info.termsOfService()),
-            pair("contact", mapWithoutDeleteMe(
-                optionalPair("email", info.contactEmail()))),
-            pair("license", mapWithoutDeleteMe(
-                optionalPair("name", info.licenceName()),
-                optionalPair("url", info.licenceUrl()))));
+            pair("description", info.description()),
+            pair("termsOfService", info.termsOfService()),
+            pair("contact", mapWithoutOptions(
+                pair("email", info.contactEmail()))),
+            pair("license", mapWithoutOptions(
+                pair("name", info.licenceName()),
+                pair("url", info.licenceUrl()))));
     }
 
-    private static Map<String, Object> mapWithoutDeleteMe(Pair<String, Object>... pairs) {
+    private static Map<String, Object> mapWithoutOptions(Pair<String, Object>... pairs) {
         return map(
             sequence(pairs)
-                .filter(pair -> pair != DELETEME));
-    }
-
-    private static Pair<String, Object> optionalPair(String key, Option<String> value) {
-        return value
-            .map(actualValue -> pair(key, (Object) actualValue))
-            .getOrElse(DELETEME);
+                .filter(not(second(instanceOf(None.class))))
+                .map(when(
+                    pair -> pair.second() instanceof Option,
+                    pair -> pair(pair.first(), ((Option) pair.second()).get()))));
     }
 
 
@@ -64,7 +62,7 @@ public class Swagger {
         return sequence(resources)
             .filter(binding -> !binding.hidden())
             .map(binding -> pair("/" + binding.uriTemplate(), pathItem(binding)))
-            .foldLeft(map(), Swagger::foldInOperationObjects);
+            .foldLeft(map(), SwaggerV2::foldInOperationObjects);
     }
 
     public static Pair<String, Object> pathItem(Binding binding) {
