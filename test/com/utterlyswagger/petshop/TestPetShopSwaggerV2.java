@@ -97,24 +97,35 @@ public abstract class TestPetShopSwaggerV2 {
 
     @Test
     public void definesParametersToEndpoint() throws Exception {
-        System.out.println(getSwagger());
         assertThat(
             getSwagger(),
             allOf(
                 stringInPath(is("petId"),
                     "paths", "/pet/{petId}", "post", "parameters", 0, "name"),
+                stringInPath(is("path"),
+                    "paths", "/pet/{petId}", "post", "parameters", 0, "in"),
+                objectInPath(is(true),
+                    "paths", "/pet/{petId}", "post", "parameters", 0, "required"),
+                stringInPath(is("string"),
+                    "paths", "/pet/{petId}", "post", "parameters", 0, "type"),
+
                 stringInPath(is("name"),
                     "paths", "/pet/{petId}", "post", "parameters", 1, "name"),
+                stringInPath(is("formData"),
+                    "paths", "/pet/{petId}", "post", "parameters", 1, "in"),
+                objectInPath(is(false),
+                    "paths", "/pet/{petId}", "post", "parameters", 1, "required"),
+                stringInPath(is("string"),
+                    "paths", "/pet/{petId}", "post", "parameters", 1, "type"),
+
                 stringInPath(is("status"),
-                    "paths", "/pet/{petId}", "post", "parameters", 2, "name")//,
-//            stringInPath(is("path"),
-//                "paths", "/pet/{petId}", "post", "parameters", 0, "in"),
-//            stringInPath(is("ID of pet that needs to be updated"),
-//                "paths", "/pet/{petId}", "post", "parameters", 0, "description"),
-//            objectInPath(is(true),
-//                "paths", "/pet/{petId}", "post", "parameters", 0, "required"),
-//            stringInPath(is("string"),
-//                "paths", "/pet/{petId}", "post", "parameters", 0, "type")
+                    "paths", "/pet/{petId}", "post", "parameters", 2, "name"),
+                stringInPath(is("formData"),
+                    "paths", "/pet/{petId}", "post", "parameters", 2, "in"),
+                objectInPath(is(false),
+                    "paths", "/pet/{petId}", "post", "parameters", 2, "required"),
+                stringInPath(is("string"),
+                    "paths", "/pet/{petId}", "post", "parameters", 2, "type")
             ));
     }
 

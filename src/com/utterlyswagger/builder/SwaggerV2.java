@@ -7,6 +7,8 @@ import com.googlecode.totallylazy.Pair;
 import com.googlecode.totallylazy.Sequence;
 import com.googlecode.utterlyidle.Binding;
 import com.googlecode.utterlyidle.NamedParameter;
+import com.googlecode.utterlyidle.Parameter;
+import com.googlecode.utterlyidle.Parameters;
 import com.googlecode.utterlyidle.Resources;
 import com.googlecode.utterlyidle.bindings.actions.ResourceMethod;
 import com.utterlyswagger.SwaggerInfo;
@@ -16,10 +18,12 @@ import com.utterlyswagger.annotations.ResponseDescriptions;
 import com.utterlyswagger.annotations.Summary;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 import static com.googlecode.totallylazy.Callables.when;
 import static com.googlecode.totallylazy.Maps.map;
+import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.Pair.pair;
 import static com.googlecode.totallylazy.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
@@ -77,19 +81,62 @@ public class SwaggerV2 {
             "summary", summary(annotations),
             "description", description(annotations),
             "produces", binding.produces().toList(),
-            "parameters", parameters(binding.namedParameters()),
+            "parameters", parameters(binding.parameters()),
             "responses", responses(annotations));
     }
 
-    private static Sequence<Map<String, Object>> parameters(Sequence<NamedParameter> parameters) {
-        return parameters
-            .map(param -> parameter(param));
+    private static Sequence<Map<String, Object>> parameters(Sequence<Pair<Type, Option<Parameter>>> parameters) {
+        return parameters.map(SwaggerV2::parameter);
     }
 
-    private static Map<String, Object> parameter(NamedParameter param) {
+    private static Map<String, Object> parameter(Pair<Type, Option<Parameter>> paramPair) {
+        NamedParameter param = (NamedParameter) paramPair.second().get();
+        Type type = paramPair.first();
         return map(
-            "name", param.name()
+            "name", param.name(),
+            "in", paramLocation(param.parametersClass()),
+            "required", notOptional(type),
+            "type", typeFor(type)
         );
+    }
+
+    private static Map<String, String> typeMap = map(sequence(
+        pair("java.lang.String", "string"),
+        pair("java.lang.Byte", "integer"),
+        pair("java.lang.Short", "integer"),
+        pair("java.lang.Integer", "integer"),
+        pair("java.lang.Long", "integer"),
+        pair("java.lang.Float", "number"),
+        pair("java.lang.Double", "number"),
+        pair("java.lang.Boolean", "boolean")
+    ));
+
+    public static String typeFor(Type type) {
+        return option(typeMap.get(typeWithOption(type)))
+            .getOrElse("unknown: " + typeWithOption(type));
+    }
+
+    private static String typeWithOption(Type type) {
+        String typeName = type.getTypeName();
+        String optionName = Option.class.getCanonicalName();
+        return typeName.startsWith(optionName)
+            ? typeName.substring(optionName.length() + 1, typeName.length() - 1)
+            : typeName;
+    }
+
+    private static boolean notOptional(Type type) {return !type.getTypeName().startsWith(Option.class.getCanonicalName());}
+
+    private static Map<String, String> paramLocation = map(
+        "PathParameters", "path",
+        "CookieParameters", "cookie",
+        "QueryParameters", "query",
+        "FormParameters", "formData",
+        "HeaderParameters", "header"
+    );
+
+    private static String paramLocation(Class<? extends Parameters<String, String, ?>> aClass) {
+        return option(paramLocation.get(aClass.getSimpleName()))
+            .getOrElse("unknown");
     }
 
     private static String summary(Sequence<Annotation> annotations) {
