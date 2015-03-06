@@ -24,7 +24,7 @@ public class SwaggerResource {
 
     public Response version2() {
         return response(OK)
-            .entity(json(swaggerV2(info, targetEndpointBaseLocation, resources)))
+            .entity(json(swaggerV2(info, targetEndpointBaseLocation, operationsFor(resources))))
             .build();
     }
 

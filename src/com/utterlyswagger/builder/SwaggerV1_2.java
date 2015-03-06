@@ -77,9 +77,11 @@ public class SwaggerV1_2 {
     }
 
     private static Sequence<Map<String, Object>> responses(Operation operation) {
-        return operation.responses.map(desc ->
-            map("code", (Object) Integer.parseInt(desc.status()),
-                "message", desc.description()));
+        return operation.responses
+            .filter(desc -> !desc.status().equals("default"))
+            .map(desc ->
+                map("code", (Object) Integer.parseInt(desc.status()),
+                    "message", desc.description()));
     }
 
     private static Map<String, String> paramLocation = map(

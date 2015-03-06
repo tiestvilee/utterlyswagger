@@ -152,7 +152,7 @@ public class Operations {
         public Class<? extends Annotation> annotationType() { return ResponseDescription.class; }
 
         @Override
-        public String status() { return "200"; }
+        public String status() { return "default"; }
 
         @Override
         public String description() { return "successful operation"; }

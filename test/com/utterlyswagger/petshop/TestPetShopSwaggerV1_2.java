@@ -85,9 +85,7 @@ public abstract class TestPetShopSwaggerV1_2 {
             allOf(
                 stringInPath(is("Logs out current logged in user session"), "summary"),
                 stringInPath(is("logout"), "nickname"),
-                listInPath(contains("application/json", "application/xml"), "produces"),
-                integerInPath(is(new BigDecimal(200)), "responseMessages", 0, "code"),
-                stringInPath(is("successful operation"), "responseMessages", 0, "message")
+                listInPath(contains("application/json", "application/xml"), "produces")
             ));
     }
 
