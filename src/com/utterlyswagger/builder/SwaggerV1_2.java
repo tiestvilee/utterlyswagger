@@ -57,14 +57,11 @@ public class SwaggerV1_2 {
     public static Map<String, Object> swaggerInfo(SwaggerInfo info) {
         return mapWithoutOptions(
             pair("title", (Object) info.title),
-            pair("version", info.apiVersion),
             pair("description", info.description()),
-            pair("termsOfService", info.termsOfService()),
-            pair("contact", mapWithoutOptions(
-                pair("email", info.contactEmail()))),
-            pair("license", mapWithoutOptions(
-                pair("name", info.licenceName()),
-                pair("url", info.licenceUrl()))));
+            pair("termsOfServiceUrl", info.termsOfService()),
+            pair("contact", info.contactEmail()),
+            pair("license", info.licenceName()),
+            pair("licenseUrl", info.licenceUrl()));
     }
 
     private static Map<String, Object> mapWithoutOptions(Pair<String, Object>... pairs) {

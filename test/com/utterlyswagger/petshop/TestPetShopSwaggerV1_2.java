@@ -27,32 +27,32 @@ public abstract class TestPetShopSwaggerV1_2 {
             ));
     }
 
-//    @Test
-//    public void definesMinimumSwaggerInfo() throws Exception {
-//        assertThat(
-//            getSwagger(),
-//            allOf(
-//                stringInPath(is("Swagger Petstore"), "info", "title"),
-//                stringInPath(is("1.0.0"), "info", "version")));
-//    }
-//
-//    @Test
-//    public void definesExtraSwaggerInfo() throws Exception {
-//        assertThat(
-//            getSwagger(),
-//            allOf(
-//                stringInPath(is("This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters"),
-//                    "info", "description"),
-//                stringInPath(is("http://helloreverb.com/terms/"),
-//                    "info", "termsOfService"),
-//                stringInPath(is("apiteam@wordnik.com"),
-//                    "info", "contact", "email"),
-//                stringInPath(is("Apache 2.0"),
-//                    "info", "license", "name"),
-//                stringInPath(is("http://www.apache.org/licenses/LICENSE-2.0.html"),
-//                    "info", "license", "url")));
-//    }
-//
+    @Test
+    public void definesMinimumSwaggerInfo() throws Exception {
+        assertThat(
+            getSwagger(),
+            allOf(
+                stringInPath(is("Swagger Petstore"),
+                    "info", "title"),
+                stringInPath(is("This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters"),
+                    "info", "description")));
+    }
+
+    @Test
+    public void definesExtraSwaggerInfo() throws Exception {
+        assertThat(
+            getSwagger(),
+            allOf(
+                stringInPath(is("http://helloreverb.com/terms/"),
+                    "info", "termsOfServiceUrl"),
+                stringInPath(is("apiteam@wordnik.com"),
+                    "info", "contact"),
+                stringInPath(is("Apache 2.0"),
+                    "info", "license"),
+                stringInPath(is("http://www.apache.org/licenses/LICENSE-2.0.html"),
+                    "info", "licenseUrl")));
+    }
+
 //    @Test
 //    public void definesPaths() throws Exception {
 //        String[] endPoints = {"/pet", "/pet/findByStatus", "/pet/findByTags",
