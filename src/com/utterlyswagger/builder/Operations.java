@@ -1,9 +1,6 @@
 package com.utterlyswagger.builder;
 
-import com.googlecode.totallylazy.Callable1;
-import com.googlecode.totallylazy.Option;
-import com.googlecode.totallylazy.Pair;
-import com.googlecode.totallylazy.Sequence;
+import com.googlecode.totallylazy.*;
 import com.googlecode.utterlyidle.Binding;
 import com.googlecode.utterlyidle.NamedParameter;
 import com.googlecode.utterlyidle.Resources;
@@ -19,9 +16,13 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
+import static com.googlecode.totallylazy.Callables.when;
 import static com.googlecode.totallylazy.Maps.map;
 import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.Pair.pair;
+import static com.googlecode.totallylazy.Predicates.instanceOf;
+import static com.googlecode.totallylazy.Predicates.not;
+import static com.googlecode.totallylazy.Predicates.second;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class Operations {
@@ -107,7 +108,7 @@ public class Operations {
         Type type = paramPair.first();
         return new Parameter(
             param.name(),
-            type.getClass().getSimpleName(),
+            param.parametersClass().getSimpleName(),
             notOptional(type),
             typeFor(type));
     }
@@ -137,6 +138,15 @@ public class Operations {
     }
 
     private static boolean notOptional(Type type) {return !type.getTypeName().startsWith(Option.class.getCanonicalName());}
+
+    public static Map<String, Object> realiseMap(Pair<String, Object>... pairs) {
+        return map(
+            sequence(pairs)
+                .filter(not(second(instanceOf(None.class))))
+                .map(when(
+                    pair -> pair.second() instanceof Option,
+                    pair -> pair(pair.first(), ((Option) pair.second()).get()))));
+    }
 
     public static class Operation {
         public final String path;
