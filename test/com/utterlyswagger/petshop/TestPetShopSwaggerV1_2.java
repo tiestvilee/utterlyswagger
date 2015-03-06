@@ -7,6 +7,7 @@ import java.util.Map;
 import static com.utterlyswagger.petshop.path.PathAssertions.stringInPath;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.AllOf.allOf;
 
 public abstract class TestPetShopSwaggerV1_2 {
 
@@ -15,17 +16,17 @@ public abstract class TestPetShopSwaggerV1_2 {
         assertThat(
             getSwagger(), stringInPath(is("1.2"), "swaggerVersion"));
     }
-//
-//    @Test
-//    public void definesExtraSwaggerStuff() throws Exception {
-//        assertThat(
-//            getSwagger(),
-//            allOf(
-//                stringInPath(is("/v2"), "basePath"),
-//                stringInPath(is("petstore.swagger.io"), "host")
-//            ));
-//    }
-//
+
+    @Test
+    public void definesExtraSwaggerStuff() throws Exception {
+        assertThat(
+            getSwagger(),
+            allOf(
+                stringInPath(is("http://petstore.swagger.io/v2"), "basePath"),
+                stringInPath(is("1.0.0"), "apiVersion")
+            ));
+    }
+
 //    @Test
 //    public void definesMinimumSwaggerInfo() throws Exception {
 //        assertThat(

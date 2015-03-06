@@ -19,13 +19,19 @@ import com.utterlyswagger.annotations.Summary;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 import static com.googlecode.totallylazy.Callables.when;
 import static com.googlecode.totallylazy.Maps.map;
+import static com.googlecode.totallylazy.Option.none;
 import static com.googlecode.totallylazy.Option.option;
+import static com.googlecode.totallylazy.Option.some;
 import static com.googlecode.totallylazy.Pair.pair;
-import static com.googlecode.totallylazy.Predicates.*;
+import static com.googlecode.totallylazy.Predicates.instanceOf;
+import static com.googlecode.totallylazy.Predicates.not;
+import static com.googlecode.totallylazy.Predicates.second;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class SwaggerV1_2 {
@@ -35,9 +41,17 @@ public class SwaggerV1_2 {
             pair("swaggerVersion", "1.2"),
             pair("info", swaggerInfo(info)),
             pair("paths", paths(resources)),
-            pair("basePath", (Object) targetEndpointBaseLocation.basePath),
-            pair("host", (Object) targetEndpointBaseLocation.host)
+            pair("basePath", urlFor(targetEndpointBaseLocation.host, targetEndpointBaseLocation.basePath)),
+            pair("apiVersion", info.apiVersion)
         );
+    }
+
+    private static Option<String> urlFor(Option<String> host, Option<String> basePath) {
+        try {
+            return some(new URL("http", host.getOrElse(""), basePath.getOrElse("")).toString());
+        } catch (MalformedURLException e) {
+            return none();
+        }
     }
 
     public static Map<String, Object> swaggerInfo(SwaggerInfo info) {
