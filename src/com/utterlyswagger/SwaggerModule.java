@@ -28,11 +28,16 @@ public class SwaggerModule implements ResourcesModule, ApplicationScopedModule {
 
     @Override
     public Resources addResources(Resources resources) throws Exception {
-        return resources.add(
-            get(basePath + "/swagger_v2.json")
+        return resources
+            .add(get(basePath + "/swagger_v2.json")
                 .hidden(true)
                 .produces(MediaType.APPLICATION_JSON)
                 .resource(method(on(SwaggerResource.class).version2()))
+                .build())
+            .add(get(basePath + "/swagger_v1.2.json")
+                .hidden(true)
+                .produces(MediaType.APPLICATION_JSON)
+                .resource(method(on(SwaggerResource.class).version1()))
                 .build());
     }
 

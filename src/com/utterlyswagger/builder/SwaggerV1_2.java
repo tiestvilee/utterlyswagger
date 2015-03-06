@@ -28,11 +28,11 @@ import static com.googlecode.totallylazy.Pair.pair;
 import static com.googlecode.totallylazy.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
-public class SwaggerV2 {
+public class SwaggerV1_2 {
 
-    public static Map<String, Object> swaggerV2(SwaggerInfo info, TargetEndpointBaseLocation targetEndpointBaseLocation, Resources resources) {
+    public static Map<String, Object> swaggerV1_2(SwaggerInfo info, TargetEndpointBaseLocation targetEndpointBaseLocation, Resources resources) {
         return mapWithoutOptions(
-            pair("swagger", "2.0"),
+            pair("swaggerVersion", "1.2"),
             pair("info", swaggerInfo(info)),
             pair("paths", paths(resources)),
             pair("basePath", (Object) targetEndpointBaseLocation.basePath),
@@ -67,7 +67,7 @@ public class SwaggerV2 {
         return sequence(resources)
             .filter(binding -> !binding.hidden())
             .map(binding -> pair("/" + binding.uriTemplate(), pathItem(binding)))
-            .foldLeft(map(), SwaggerV2::foldInOperationObjects);
+            .foldLeft(map(), SwaggerV1_2::foldInOperationObjects);
     }
 
     public static Pair<String, Object> pathItem(Binding binding) {
@@ -86,7 +86,7 @@ public class SwaggerV2 {
     }
 
     private static Sequence<Map<String, Object>> parameters(Sequence<Pair<Type, Option<Parameter>>> parameters) {
-        return parameters.map(SwaggerV2::parameter);
+        return parameters.map(SwaggerV1_2::parameter);
     }
 
     private static Map<String, Object> parameter(Pair<Type, Option<Parameter>> paramPair) {

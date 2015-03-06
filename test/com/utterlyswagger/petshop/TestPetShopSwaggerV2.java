@@ -1,11 +1,16 @@
 package com.utterlyswagger.petshop;
 
+import com.googlecode.totallylazy.Unchecked;
+import com.googlecode.totallylazy.json.Json;
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.Map;
 
+import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.utterlyswagger.petshop.path.BasicPath.mapAt;
 import static com.utterlyswagger.petshop.path.PathAssertions.*;
+import static com.utterlyswagger.petshop.path.SafePath.objectAt;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,25 +49,40 @@ public abstract class TestPetShopSwaggerV2 {
         assertThat(
             getSwagger(),
             allOf(
-                stringInPath(is("This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters"), "info", "description"),
-                stringInPath(is("http://helloreverb.com/terms/"), "info", "termsOfService"),
-                stringInPath(is("apiteam@wordnik.com"), "info", "contact", "email"),
-                stringInPath(is("Apache 2.0"), "info", "license", "name"),
-                stringInPath(is("http://www.apache.org/licenses/LICENSE-2.0.html"), "info", "license", "url")));
+                stringInPath(is("This is a sample server Petstore server.  You can find out more about Swagger at <a href=\"http://swagger.io\">http://swagger.io</a> or on irc.freenode.net, #swagger.  For this sample, you can use the api key \"special-key\" to test the authorization filters"),
+                    "info", "description"),
+                stringInPath(is("http://helloreverb.com/terms/"),
+                    "info", "termsOfService"),
+                stringInPath(is("apiteam@wordnik.com"),
+                    "info", "contact", "email"),
+                stringInPath(is("Apache 2.0"),
+                    "info", "license", "name"),
+                stringInPath(is("http://www.apache.org/licenses/LICENSE-2.0.html"),
+                    "info", "license", "url")));
     }
 
     @Test
     public void definesPaths() throws Exception {
+        String[] endPoints = {"/pet", "/pet/findByStatus", "/pet/findByTags",
+            "/pet/{petId}", "/pet/{petId}/uploadImage", "/store/inventory",
+            "/store/order", "/store/order/{orderId}", "/user",
+            "/user/createWithArray", "/user/createWithList", "/user/login",
+            "/user/logout", "/user/{username}"};
+
         assertThat(
             getSwagger(),
-            mapInPathKeys(hasItems(
-                    "/pet", "/pet/findByStatus", "/pet/findByTags",
-                    "/pet/{petId}", "/pet/{petId}/uploadImage", "/store/inventory",
-                    "/store/order", "/store/order/{orderId}", "/user",
-                    "/user/createWithArray", "/user/createWithList", "/user/login",
-                    "/user/logout", "/user/{username}"),
-                "paths")
-        );
+            mapInPathKeys(hasItems(endPoints), "paths"));
+
+        Collection<String> allEndpoints = objectAt(getSwagger(), "paths")
+            .map(Unchecked::<Map>cast)
+            .map(Map::keySet)
+            .map(Unchecked::<Collection<String>>cast)
+            .get();
+
+        System.out.println(
+            sequence(allEndpoints)
+                .filter(endPoint -> !sequence(endPoints).contains(endPoint)));
+        System.out.println(Json.json(getSwagger()));
     }
 
     @Test
@@ -70,9 +90,12 @@ public abstract class TestPetShopSwaggerV2 {
         assertThat(
             mapAt(getSwagger(), "paths", "/user/logout", "get"),
             allOf(
-                stringInPath(is("Logs out current logged in user session"), "summary"),
-                listInPath(contains("application/json", "application/xml"), "produces"),
-                stringInPath(is("successful operation"), "responses", "default", "description")
+                stringInPath(is("Logs out current logged in user session"),
+                    "summary"),
+                listInPath(contains("application/json", "application/xml"),
+                    "produces"),
+                stringInPath(is("successful operation"),
+                    "responses", "default", "description")
             ));
     }
 
@@ -83,8 +106,10 @@ public abstract class TestPetShopSwaggerV2 {
             allOf(
                 stringInPath(is("For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors"),
                     "description"),
-                stringInPath(is("Order not found"), "responses", "404", "description"),
-                stringInPath(is("Invalid ID supplied"), "responses", "400", "description")
+                stringInPath(is("Order not found"),
+                    "responses", "404", "description"),
+                stringInPath(is("Invalid ID supplied"),
+                    "responses", "400", "description")
             ));
     }
 
@@ -98,34 +123,29 @@ public abstract class TestPetShopSwaggerV2 {
     @Test
     public void definesParametersToEndpoint() throws Exception {
         assertThat(
-            getSwagger(),
+            mapAt(getSwagger(), "paths", "/pet/{petId}", "post", "parameters", 0),
             allOf(
-                stringInPath(is("petId"),
-                    "paths", "/pet/{petId}", "post", "parameters", 0, "name"),
-                stringInPath(is("path"),
-                    "paths", "/pet/{petId}", "post", "parameters", 0, "in"),
-                objectInPath(is(true),
-                    "paths", "/pet/{petId}", "post", "parameters", 0, "required"),
-                stringInPath(is("string"),
-                    "paths", "/pet/{petId}", "post", "parameters", 0, "type"),
+                stringInPath(is("petId"), "name"),
+                stringInPath(is("path"), "in"),
+                objectInPath(is(true), "required"),
+                stringInPath(is("string"), "type")));
 
-                stringInPath(is("name"),
-                    "paths", "/pet/{petId}", "post", "parameters", 1, "name"),
-                stringInPath(is("formData"),
-                    "paths", "/pet/{petId}", "post", "parameters", 1, "in"),
-                objectInPath(is(false),
-                    "paths", "/pet/{petId}", "post", "parameters", 1, "required"),
-                stringInPath(is("string"),
-                    "paths", "/pet/{petId}", "post", "parameters", 1, "type"),
 
-                stringInPath(is("status"),
-                    "paths", "/pet/{petId}", "post", "parameters", 2, "name"),
-                stringInPath(is("formData"),
-                    "paths", "/pet/{petId}", "post", "parameters", 2, "in"),
-                objectInPath(is(false),
-                    "paths", "/pet/{petId}", "post", "parameters", 2, "required"),
-                stringInPath(is("string"),
-                    "paths", "/pet/{petId}", "post", "parameters", 2, "type")
+        assertThat(
+            mapAt(getSwagger(), "paths", "/pet/{petId}", "post", "parameters", 1),
+            allOf(
+                stringInPath(is("name"), "name"),
+                stringInPath(is("formData"), "in"),
+                objectInPath(is(false), "required"),
+                stringInPath(is("string"), "type")));
+
+        assertThat(
+            mapAt(getSwagger(), "paths", "/pet/{petId}", "post", "parameters", 2),
+            allOf(
+                stringInPath(is("status"), "name"),
+                stringInPath(is("formData"), "in"),
+                objectInPath(is(false), "required"),
+                stringInPath(is("string"), "type")
             ));
     }
 

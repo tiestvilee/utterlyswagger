@@ -6,7 +6,8 @@ import com.googlecode.utterlyidle.Response;
 import static com.googlecode.totallylazy.json.Json.json;
 import static com.googlecode.utterlyidle.ResponseBuilder.response;
 import static com.googlecode.utterlyidle.Status.OK;
-import static com.utterlyswagger.builder.SwaggerV2.swagger;
+import static com.utterlyswagger.builder.SwaggerV1_2.swaggerV1_2;
+import static com.utterlyswagger.builder.SwaggerV2.swaggerV2;
 
 public class SwaggerResource {
 
@@ -22,7 +23,13 @@ public class SwaggerResource {
 
     public Response version2() {
         return response(OK)
-            .entity(json(swagger(info, targetEndpointBaseLocation, resources)))
+            .entity(json(swaggerV2(info, targetEndpointBaseLocation, resources)))
+            .build();
+    }
+
+    public Response version1() {
+        return response(OK)
+            .entity(json(swaggerV1_2(info, targetEndpointBaseLocation, resources)))
             .build();
     }
 
