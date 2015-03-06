@@ -1,6 +1,10 @@
 package com.utterlyswagger.builder;
 
-import com.googlecode.totallylazy.*;
+import com.googlecode.totallylazy.Callable1;
+import com.googlecode.totallylazy.None;
+import com.googlecode.totallylazy.Option;
+import com.googlecode.totallylazy.Pair;
+import com.googlecode.totallylazy.Sequence;
 import com.googlecode.utterlyidle.Binding;
 import com.googlecode.utterlyidle.NamedParameter;
 import com.googlecode.utterlyidle.Resources;
@@ -19,9 +23,7 @@ import static com.googlecode.totallylazy.Callables.when;
 import static com.googlecode.totallylazy.Maps.map;
 import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.Pair.pair;
-import static com.googlecode.totallylazy.Predicates.instanceOf;
-import static com.googlecode.totallylazy.Predicates.not;
-import static com.googlecode.totallylazy.Predicates.second;
+import static com.googlecode.totallylazy.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class Operations {
@@ -33,40 +35,35 @@ public class Operations {
                     pair(
                         operationPath(binding),
                         operation(binding)
-                    ))
-        );
+                    )));
     }
 
     private static Map<String, Sequence<Operation>> squashIntoMap(Sequence<Pair<String, Operation>> map) {
-        return map
-            .foldLeft(map(),
-                (acc, pair) -> {
-                    if(acc.containsKey(pair.first())) {
-                        acc.put(pair.first(), acc.get(pair.first()).append(pair.second()));
-                    } else {
-                        acc.put(pair.first(), sequence(pair.second()));
-                    }
-                    return acc;
-                });
+        return map.foldLeft(map(),
+            (acc, pair) -> {
+                if (acc.containsKey(pair.first())) {
+                    acc.put(pair.first(), acc.get(pair.first()).append(pair.second()));
+                } else {
+                    acc.put(pair.first(), sequence(pair.second()));
+                }
+                return acc;
+            });
     }
 
     private static String operationPath(Binding binding) {return "/" + binding.uriTemplate();}
 
     private static Operation operation(Binding binding) {
         Method resourceMethod = getResourceMethod(binding);
+        Sequence<Annotation> annotations = sequence(resourceMethod.getAnnotations());
         return new Operation(
             operationPath(binding),
-            methodNameFor(resourceMethod),
+            resourceMethod.getName(),
             binding.httpMethod(),
-            description(annotationsFor(resourceMethod)), summary(annotationsFor(resourceMethod)), binding.produces().toList(), responses(annotationsFor(resourceMethod)), parameters(binding.parameters()));
-    }
-
-    private static Sequence<Annotation> annotationsFor(Method method) {
-        return sequence(method.getAnnotations());
-    }
-
-    private static String methodNameFor(Method method) {
-        return method.getName();
+            description(annotations),
+            summary(annotations),
+            binding.produces().toList(),
+            responses(annotations),
+            parameters(binding.parameters()));
     }
 
     private static Method getResourceMethod(Binding binding) {
@@ -78,16 +75,18 @@ public class Operations {
     }
 
     public static String summary(Sequence<Annotation> annotations) {
-        return getAnnotationValue(annotations, "", Summary.class, summary -> ((Summary) summary).value());
+        return getAnnotationValue(annotations, "", Summary.class,
+            summary -> ((Summary) summary).value());
     }
 
     public static String description(Sequence<Annotation> annotations) {
-        return getAnnotationValue(annotations, "", Description.class, description -> ((Description) description).value());
+        return getAnnotationValue(annotations, "", Description.class,
+            description -> ((Description) description).value());
     }
 
     private static Sequence<ResponseDescription> responses(Sequence<Annotation> annotations) {
         return getAnnotationValue(annotations, sequence(DEFAULT_RESPONSE_DESCRIPTION), ResponseDescriptions.class,
-            descriptions -> sequence(((ResponseDescriptions) descriptions).value()));
+            responseDescriptions -> sequence(((ResponseDescriptions) responseDescriptions).value()));
     }
 
     private static <T> T getAnnotationValue(Sequence<Annotation> annotations, T defaultResult, Class aClass, Callable1<Annotation, T> getValue) {
@@ -111,6 +110,23 @@ public class Operations {
             typeFor(type));
     }
 
+    public static String typeFor(Type type) {
+        return option(typeMap.get(typeWithOption(type)))
+            .getOrElse("unknown: " + typeWithOption(type));
+    }
+
+    private static String typeWithOption(Type type) {
+        String typeName = type.getTypeName();
+        String optionName = Option.class.getCanonicalName();
+        return typeName.startsWith(optionName)
+            ? removeOption(typeName, optionName)
+            : typeName;
+    }
+
+    private static String removeOption(String typeName, String optionName) {return typeName.substring(optionName.length() + 1, typeName.length() - 1);}
+
+    private static boolean notOptional(Type type) {return !type.getTypeName().startsWith(Option.class.getCanonicalName());}
+
     private static Map<String, String> typeMap = map(sequence(
         pair("java.lang.String", "string"),
         pair("java.lang.Byte", "integer"),
@@ -121,21 +137,6 @@ public class Operations {
         pair("java.lang.Double", "number"),
         pair("java.lang.Boolean", "boolean")
     ));
-
-    public static String typeFor(Type type) {
-        return option(typeMap.get(typeWithOption(type)))
-            .getOrElse("unknown: " + typeWithOption(type));
-    }
-
-    private static String typeWithOption(Type type) {
-        String typeName = type.getTypeName();
-        String optionName = Option.class.getCanonicalName();
-        return typeName.startsWith(optionName)
-            ? typeName.substring(optionName.length() + 1, typeName.length() - 1)
-            : typeName;
-    }
-
-    private static boolean notOptional(Type type) {return !type.getTypeName().startsWith(Option.class.getCanonicalName());}
 
     public static Map<String, Object> realiseMap(Pair<String, Object>... pairs) {
         return map(
