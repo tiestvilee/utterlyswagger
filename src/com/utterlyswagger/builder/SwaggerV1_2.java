@@ -1,15 +1,7 @@
 package com.utterlyswagger.builder;
 
-import com.googlecode.totallylazy.Callable1;
-import com.googlecode.totallylazy.None;
-import com.googlecode.totallylazy.Option;
-import com.googlecode.totallylazy.Pair;
-import com.googlecode.totallylazy.Sequence;
-import com.googlecode.utterlyidle.Binding;
-import com.googlecode.utterlyidle.NamedParameter;
-import com.googlecode.utterlyidle.Parameter;
-import com.googlecode.utterlyidle.Parameters;
-import com.googlecode.utterlyidle.Resources;
+import com.googlecode.totallylazy.*;
+import com.googlecode.utterlyidle.*;
 import com.googlecode.utterlyidle.bindings.actions.ResourceMethod;
 import com.utterlyswagger.SwaggerInfo;
 import com.utterlyswagger.TargetEndpointBaseLocation;
@@ -25,13 +17,10 @@ import java.util.Map;
 
 import static com.googlecode.totallylazy.Callables.when;
 import static com.googlecode.totallylazy.Maps.map;
-import static com.googlecode.totallylazy.Option.none;
-import static com.googlecode.totallylazy.Option.option;
+import static com.googlecode.totallylazy.Option.*;
 import static com.googlecode.totallylazy.Option.some;
 import static com.googlecode.totallylazy.Pair.pair;
-import static com.googlecode.totallylazy.Predicates.instanceOf;
-import static com.googlecode.totallylazy.Predicates.not;
-import static com.googlecode.totallylazy.Predicates.second;
+import static com.googlecode.totallylazy.Predicates.*;
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class SwaggerV1_2 {
@@ -40,7 +29,7 @@ public class SwaggerV1_2 {
         return mapWithoutOptions(
             pair("swaggerVersion", "1.2"),
             pair("info", swaggerInfo(info)),
-            pair("paths", paths(resources)),
+            pair("apis", apis(resources)),
             pair("basePath", urlFor(targetEndpointBaseLocation.host, targetEndpointBaseLocation.basePath)),
             pair("apiVersion", info.apiVersion)
         );
@@ -74,17 +63,16 @@ public class SwaggerV1_2 {
     }
 
 
-    public static Map<String, Map<String, Object>> paths(Resources resources) {
+    public static Sequence<Map<String, Object>> apis(Resources resources) {
         return sequence(resources)
             .filter(binding -> !binding.hidden())
-            .map(binding -> pair("/" + binding.uriTemplate(), pathItem(binding)))
-            .foldLeft(map(), SwaggerV1_2::foldInOperationObjects);
+            .map(binding -> resource(binding));
     }
 
-    public static Pair<String, Object> pathItem(Binding binding) {
-        return pair(
-            binding.httpMethod().toLowerCase(),
-            operationObject(binding, annotationsFor(binding)));
+    private static Map<String, Object> resource(Binding binding) {
+        return map(
+            "path", "/" + binding.uriTemplate()
+        );
     }
 
     private static Map<String, Object> operationObject(Binding binding, Sequence<Annotation> annotations) {

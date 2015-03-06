@@ -4,7 +4,9 @@ import org.junit.Test;
 
 import java.util.Map;
 
+import static com.utterlyswagger.petshop.path.BasicPath.sequenceAt;
 import static com.utterlyswagger.petshop.path.PathAssertions.stringInPath;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.AllOf.allOf;
@@ -53,30 +55,20 @@ public abstract class TestPetShopSwaggerV1_2 {
                     "info", "licenseUrl")));
     }
 
-//    @Test
-//    public void definesPaths() throws Exception {
-//        String[] endPoints = {"/pet", "/pet/findByStatus", "/pet/findByTags",
-//            "/pet/{petId}", "/pet/{petId}/uploadImage", "/store/inventory",
-//            "/store/order", "/store/order/{orderId}", "/user",
-//            "/user/createWithArray", "/user/createWithList", "/user/login",
-//            "/user/logout", "/user/{username}"};
-//
-//        assertThat(
-//            getSwagger(),
-//            mapInPathKeys(hasItems(endPoints), "paths"));
-//
-//        Collection<String> allEndpoints = objectAt(getSwagger(), "paths")
-//            .map(Unchecked::<Map>cast)
-//            .map(Map::keySet)
-//            .map(Unchecked::<Collection<String>>cast)
-//            .get();
-//
-//        System.out.println(
-//            sequence(allEndpoints)
-//                .filter(endPoint -> !sequence(endPoints).contains(endPoint)));
-//        System.out.println(Json.json(getSwagger()));
-//    }
-//
+    @Test
+    public void definesPaths() throws Exception {
+        String[] endPoints = {"/pet", "/pet/findByStatus", "/pet/findByTags",
+            "/pet/{petId}", "/pet/{petId}/uploadImage", "/store/inventory",
+            "/store/order", "/store/order/{orderId}", "/user",
+            "/user/createWithArray", "/user/createWithList", "/user/login",
+            "/user/logout", "/user/{username}"};
+
+        assertThat(
+            sequenceAt(getSwagger(), "apis")
+                .map(endpoint -> ((Map<String, Object>) endpoint).get("path")),
+            hasItems(endPoints));
+    }
+
 //    @Test
 //    public void definesSimpleGetResource() throws Exception {
 //        assertThat(
