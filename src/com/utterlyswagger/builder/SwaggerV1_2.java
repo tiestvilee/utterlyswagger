@@ -95,12 +95,12 @@ public class SwaggerV1_2 {
 
     private static Map<String, Object> operationObject(Binding binding, Sequence<Annotation> annotations) {
         return map(sequence(
-            pair("method", binding.httpMethod().toUpperCase()),
+            pair("method", (Object) binding.httpMethod().toUpperCase()),
             pair("nickname", methodNameFor(binding)),
             pair("notes", description(annotations)),
             pair("summary", summary(annotations)),
             pair("produces", binding.produces().toList()),
-//          pair(  "parameters", parameters(binding.parameters())),
+            pair("parameters", parameters(binding.parameters())),
             pair("responseMessages", responses(annotations))
         ));
     }
@@ -114,7 +114,7 @@ public class SwaggerV1_2 {
         Type type = paramPair.first();
         return map(
             "name", param.name(),
-            "in", paramLocation(param.parametersClass()),
+            "paramType", paramLocation(param.parametersClass()),
             "required", notOptional(type),
             "type", typeFor(type)
         );
@@ -150,7 +150,7 @@ public class SwaggerV1_2 {
         "PathParameters", "path",
         "CookieParameters", "cookie",
         "QueryParameters", "query",
-        "FormParameters", "formData",
+        "FormParameters", "form",
         "HeaderParameters", "header"
     );
 
@@ -200,20 +200,5 @@ public class SwaggerV1_2 {
             .find(annotation -> annotation.annotationType().equals(aClass))
             .map(getValue)
             .getOrElse(defaultResult);
-    }
-
-    private static Map<String, Map<String, Object>> foldInOperationObjects(Map<String, Map<String, Object>> acc, Pair<String, Pair<String, Object>> pair) {
-        String uriTemplate = pair.getKey();
-
-        Pair<String, Object> pathItem = pair.getValue();
-        String httpVerb = pathItem.getKey();
-        Object operationObject = pathItem.getValue();
-
-        if (acc.containsKey(uriTemplate)) {
-            acc.get(uriTemplate).put(httpVerb, operationObject);
-        } else {
-            acc.put(uriTemplate, map(httpVerb, operationObject));
-        }
-        return acc;
     }
 }

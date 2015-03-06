@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
+import static com.utterlyswagger.petshop.path.BasicPath.mapAt;
 import static com.utterlyswagger.petshop.path.BasicPath.sequenceAt;
 import static com.utterlyswagger.petshop.path.PathAssertions.*;
 import static java.lang.String.format;
@@ -112,34 +113,33 @@ public abstract class TestPetShopSwaggerV1_2 {
             containsInAnyOrder("GET", "DELETE"));
     }
 
-//    @Test
-//    public void definesParametersToEndpoint() throws Exception {
-//        assertThat(
-//            mapAt(getSwagger(), "paths", "/pet/{petId}", "post", "parameters", 0),
-//            allOf(
-//                stringInPath(is("petId"), "name"),
-//                stringInPath(is("path"), "in"),
-//                objectInPath(is(true), "required"),
-//                stringInPath(is("string"), "type")));
-//
-//
-//        assertThat(
-//            mapAt(getSwagger(), "paths", "/pet/{petId}", "post", "parameters", 1),
-//            allOf(
-//                stringInPath(is("name"), "name"),
-//                stringInPath(is("formData"), "in"),
-//                objectInPath(is(false), "required"),
-//                stringInPath(is("string"), "type")));
-//
-//        assertThat(
-//            mapAt(getSwagger(), "paths", "/pet/{petId}", "post", "parameters", 2),
-//            allOf(
-//                stringInPath(is("status"), "name"),
-//                stringInPath(is("formData"), "in"),
-//                objectInPath(is(false), "required"),
-//                stringInPath(is("string"), "type")
-//            ));
-//    }
+    @Test
+    public void definesParametersToEndpoint() throws Exception {
+        assertThat(
+            mapAt(getEndpointOperation("/pet/{petId}", "POST"), "parameters", 0),
+            allOf(
+                stringInPath(is("petId"), "name"),
+                stringInPath(is("path"), "paramType"),
+                objectInPath(is(true), "required"),
+                stringInPath(is("string"), "type")));
+
+        assertThat(
+            mapAt(getEndpointOperation("/pet/{petId}", "POST"), "parameters", 1),
+            allOf(
+                stringInPath(is("name"), "name"),
+                stringInPath(is("form"), "paramType"),
+                objectInPath(is(false), "required"),
+                stringInPath(is("string"), "type")));
+
+        assertThat(
+            mapAt(getEndpointOperation("/pet/{petId}", "POST"), "parameters", 2),
+            allOf(
+                stringInPath(is("form"), "paramType"),
+                stringInPath(is("status"), "name"),
+                objectInPath(is(false), "required"),
+                stringInPath(is("string"), "type")
+            ));
+    }
 
     private Sequence<Map<String, Object>> getEndpoint(String endPointName) throws Exception {
         return sequenceAt(getSwagger(), "apis")
