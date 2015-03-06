@@ -20,7 +20,7 @@ import static com.utterlyswagger.builder.Operations.realiseMap;
 
 public class SwaggerV1_2 {
 
-    public static Map<String, Object> swaggerV1_2(SwaggerInfo info, TargetEndpointBaseLocation targetEndpointBaseLocation, Map<String, Sequence<Operations.Operation>> operations) {
+    public static Map<String, Object> swaggerV1_2(SwaggerInfo info, TargetEndpointBaseLocation targetEndpointBaseLocation, Map<String, Sequence<Operation>> operations) {
         return realiseMap(
             pair("swaggerVersion", "1.2"),
             pair("info", swaggerInfo(info)),
@@ -40,18 +40,18 @@ public class SwaggerV1_2 {
             pair("licenseUrl", info.licenceUrl()));
     }
 
-    public static Sequence<Map<String, Object>> apis(Map<String, Sequence<Operations.Operation>> resources) {
+    public static Sequence<Map<String, Object>> apis(Map<String, Sequence<Operation>> resources) {
         return pairs(resources).map(SwaggerV1_2::apiObject);
     }
 
 
-    private static Map<String, Object> apiObject(Pair<String, Sequence<Operations.Operation>> pair) {
+    private static Map<String, Object> apiObject(Pair<String, Sequence<Operation>> pair) {
         return map(
             "path", pair.first(),
             "operations", pair.second().map(SwaggerV1_2::operationObject));
     }
 
-    private static Map<String, Object> operationObject(Operations.Operation operation) {
+    private static Map<String, Object> operationObject(Operation operation) {
         return map(sequence(
             pair("method", (Object) operation.method.toUpperCase()),
             pair("nickname", operation.javaMethodName),
@@ -63,11 +63,11 @@ public class SwaggerV1_2 {
         ));
     }
 
-    private static Sequence<Map<String, Object>> parameters(Operations.Operation operation) {
+    private static Sequence<Map<String, Object>> parameters(Operation operation) {
         return operation.parameters.map(SwaggerV1_2::parameter);
     }
 
-    private static Map<String, Object> parameter(Operations.Parameter param) {
+    private static Map<String, Object> parameter(Parameter param) {
         return map(
             "name", param.name,
             "paramType", paramLocation.get(param.paramType),
@@ -76,7 +76,7 @@ public class SwaggerV1_2 {
         );
     }
 
-    private static Sequence<Map<String, Object>> responses(Operations.Operation operation) {
+    private static Sequence<Map<String, Object>> responses(Operation operation) {
         return operation.responses.map(desc ->
             map("code", (Object) Integer.parseInt(desc.status()),
                 "message", desc.description()));

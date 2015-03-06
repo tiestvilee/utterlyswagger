@@ -13,7 +13,6 @@ import com.utterlyswagger.annotations.Summary;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Map;
 
 import static com.googlecode.totallylazy.Callables.when;
@@ -82,7 +81,6 @@ public class Operations {
         return getAnnotationValue(annotations, "", Summary.class, summary -> ((Summary) summary).value());
     }
 
-
     public static String description(Sequence<Annotation> annotations) {
         return getAnnotationValue(annotations, "", Description.class, description -> ((Description) description).value());
     }
@@ -146,66 +144,6 @@ public class Operations {
                 .map(when(
                     pair -> pair.second() instanceof Option,
                     pair -> pair(pair.first(), ((Option) pair.second()).get()))));
-    }
-
-    public static class Operation {
-        public final String path;
-        public final String method;
-        public final String javaMethodName;
-        public final String description;
-        public final String summary;
-        public final List<String> produces;
-        public final Sequence<ResponseDescription> responses;
-        public final Sequence<Parameter> parameters;
-
-        public Operation(String path, String javaMethodName, String method, String description, String summary, List<String> produces, Sequence<ResponseDescription> responses, Sequence<Parameter> parameters) {
-            this.path = path;
-            this.javaMethodName = javaMethodName;
-            this.method = method;
-            this.description = description;
-            this.summary = summary;
-            this.produces = produces;
-            this.responses = responses;
-            this.parameters = parameters;
-        }
-
-        @Override
-        public String toString() {
-            return "Operation{" +
-                "path='" + path + '\'' +
-                ", method='" + method + '\'' +
-                ", javaMethodName='" + javaMethodName + '\'' +
-                ", description='" + description + '\'' +
-                ", summary='" + summary + '\'' +
-                ", produces=" + produces +
-                ", responses=" + responses +
-                ", parameters=" + parameters +
-                '}';
-        }
-    }
-
-    public static class Parameter {
-        public final String name;
-        public final String paramType;
-        public final boolean required;
-        public final String type;
-
-        public Parameter(String name, String paramType, boolean required, String type) {
-            this.name = name;
-            this.paramType = paramType;
-            this.required = required;
-            this.type = type;
-        }
-
-        @Override
-        public String toString() {
-            return "Parameter{" +
-                "name='" + name + '\'' +
-                ", paramType='" + paramType + '\'' +
-                ", required=" + required +
-                ", type='" + type + '\'' +
-                '}';
-        }
     }
 
     public static final ResponseDescription DEFAULT_RESPONSE_DESCRIPTION = new ResponseDescription() {
