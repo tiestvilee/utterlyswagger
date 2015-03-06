@@ -15,6 +15,7 @@ import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.core.AllOf.allOf;
 
 public abstract class TestPetShopSwaggerV2 {
@@ -117,7 +118,7 @@ public abstract class TestPetShopSwaggerV2 {
     public void definesResourceWithMultipleActions() throws Exception {
         assertThat(
             getSwagger(),
-            mapInPathKeys(contains("get", "delete"), "paths", "/store/order/{orderId}"));
+            mapInPathKeys(containsInAnyOrder("get", "delete"), "paths", "/store/order/{orderId}"));
     }
 
     @Test

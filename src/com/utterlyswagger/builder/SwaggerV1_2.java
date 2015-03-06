@@ -10,9 +10,11 @@ import com.utterlyswagger.annotations.ResponseDescriptions;
 import com.utterlyswagger.annotations.Summary;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
 import static com.googlecode.totallylazy.Callables.when;
@@ -29,10 +31,25 @@ public class SwaggerV1_2 {
         return mapWithoutOptions(
             pair("swaggerVersion", "1.2"),
             pair("info", swaggerInfo(info)),
-            pair("apis", apis(resources)),
+            pair("apis", squash(apis(resources))),
             pair("basePath", urlFor(targetEndpointBaseLocation.host, targetEndpointBaseLocation.basePath)),
             pair("apiVersion", info.apiVersion)
         );
+    }
+
+    private static Sequence<Map<String, Object>> squash(Sequence<Map<String, Object>> apis) {
+        return sequence(apis.foldLeft(new HashMap<String, Map<String, Object>>(),
+            (acc, api) -> {
+                String path = api.get("path").toString();
+                if (acc.containsKey(path)) {
+                    Sequence updatedOperations = ((Sequence) acc.get(path).get("operations")).append(((Sequence) api.get("operations")).head());
+                    acc.get(path).put("operations", updatedOperations);
+                } else {
+                    acc.put(path, api);
+                }
+                return acc;
+            }
+        ).values());
     }
 
     private static Option<String> urlFor(Option<String> host, Option<String> basePath) {
@@ -66,22 +83,26 @@ public class SwaggerV1_2 {
     public static Sequence<Map<String, Object>> apis(Resources resources) {
         return sequence(resources)
             .filter(binding -> !binding.hidden())
-            .map(binding -> resource(binding));
+            .map(binding -> apiObject(binding));
     }
 
-    private static Map<String, Object> resource(Binding binding) {
+    private static Map<String, Object> apiObject(Binding binding) {
         return map(
-            "path", "/" + binding.uriTemplate()
+            "path", "/" + binding.uriTemplate(),
+            "operations", sequence(operationObject(binding, annotationsFor(binding)))
         );
     }
 
     private static Map<String, Object> operationObject(Binding binding, Sequence<Annotation> annotations) {
-        return map(
-            "summary", summary(annotations),
-            "description", description(annotations),
-            "produces", binding.produces().toList(),
-            "parameters", parameters(binding.parameters()),
-            "responses", responses(annotations));
+        return map(sequence(
+            pair("method", binding.httpMethod().toUpperCase()),
+            pair("nickname", methodNameFor(binding)),
+            pair("notes", description(annotations)),
+            pair("summary", summary(annotations)),
+            pair("produces", binding.produces().toList()),
+//          pair(  "parameters", parameters(binding.parameters())),
+            pair("responseMessages", responses(annotations))
+        ));
     }
 
     private static Sequence<Map<String, Object>> parameters(Sequence<Pair<Type, Option<Parameter>>> parameters) {
@@ -146,25 +167,32 @@ public class SwaggerV1_2 {
         return getAnnotationValue(annotations, "", Description.class, description -> ((Description) description).value());
     }
 
-    private static Map<String, Object> responses(Sequence<Annotation> annotations) {
-        Map<String, Object> defaultResponse = map(
-            "default", map(
-                "description", "successful operation"));
+    private static Sequence<Map<String, Object>> responses(Sequence<Annotation> annotations) {
+        Sequence<Map<String, Object>> defaultResponse = sequence(map(
+            "code", 200,
+            "message", "successful operation"));
 
         return getAnnotationValue(annotations, defaultResponse, ResponseDescriptions.class, descriptions ->
-            map(sequence(((ResponseDescriptions) descriptions).value())
+            sequence(((ResponseDescriptions) descriptions).value())
                 .map(desc ->
-                    pair(desc.status(), (Object) map("description", desc.description())))));
+                    map("code", (Object) Integer.parseInt(desc.status()),
+                        "message", desc.description())));
     }
 
     private static Sequence<Annotation> annotationsFor(Binding binding) {
-        return sequence(
-            sequence(binding.action().metaData())
-                .filter(metaData -> metaData instanceof ResourceMethod)
-                .map(metaData -> (ResourceMethod) metaData)
-                .map(ResourceMethod::value)
-                .head()
-                .getAnnotations());
+        return sequence(getResourceMethod(binding).getAnnotations());
+    }
+
+    private static String methodNameFor(Binding binding) {
+        return getResourceMethod(binding).getName();
+    }
+
+    private static Method getResourceMethod(Binding binding) {
+        return sequence(binding.action().metaData())
+            .filter(metaData -> metaData instanceof ResourceMethod)
+            .map(metaData -> (ResourceMethod) metaData)
+            .map(ResourceMethod::value)
+            .head();
     }
 
     private static <T> T getAnnotationValue(Sequence<Annotation> annotations, T defaultResult, Class aClass, Callable1<Annotation, T> getValue) {
