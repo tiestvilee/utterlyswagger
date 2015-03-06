@@ -11,6 +11,6 @@ hs_err_pid*
 # build artifacts from ANT
 build/artifacts
 
-# this file changes constantly... so I'm going to ignore it
-.idea/workspace.xml
-
+# I hate .idea
+.idea
+utterlyswagger.iml
