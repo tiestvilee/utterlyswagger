@@ -1,26 +1,20 @@
 package com.utterlyswagger.builder;
 
-import com.googlecode.totallylazy.None;
-import com.googlecode.totallylazy.Option;
-import com.googlecode.totallylazy.Pair;
 import com.googlecode.totallylazy.Sequence;
 import com.utterlyswagger.SwaggerInfo;
 import com.utterlyswagger.annotations.ResponseDescription;
 
-import java.lang.reflect.Type;
 import java.util.Map;
 
-import static com.googlecode.totallylazy.Callables.when;
 import static com.googlecode.totallylazy.Maps.map;
 import static com.googlecode.totallylazy.Maps.pairs;
 import static com.googlecode.totallylazy.Pair.pair;
-import static com.googlecode.totallylazy.Predicates.*;
-import static com.googlecode.totallylazy.Sequences.sequence;
+import static com.utterlyswagger.builder.Operations.realiseMap;
 
 public class SwaggerV2 {
 
     public static Map<String, Object> swaggerV2(SwaggerInfo info, Map<String, Sequence<Operation>> operations) {
-        return mapWithoutOptions(
+        return realiseMap(
             pair("swagger", "2.0"),
             pair("info", swaggerInfo(info)),
             pair("paths", paths(operations)),
@@ -30,25 +24,16 @@ public class SwaggerV2 {
     }
 
     public static Map<String, Object> swaggerInfo(SwaggerInfo info) {
-        return mapWithoutOptions(
+        return realiseMap(
             pair("title", (Object) info.title),
             pair("version", info.apiVersion),
             pair("description", info.description),
             pair("termsOfService", info.termsOfService),
-            pair("contact", mapWithoutOptions(
+            pair("contact", realiseMap(
                 pair("email", info.contactEmail))),
-            pair("license", mapWithoutOptions(
+            pair("license", realiseMap(
                 pair("name", info.licenceName),
                 pair("url", info.licenceUrl))));
-    }
-
-    private static Map<String, Object> mapWithoutOptions(Pair<String, Object>... pairs) {
-        return map(
-            sequence(pairs)
-                .filter(not(second(instanceOf(None.class))))
-                .map(when(
-                    pair -> pair.second() instanceof Option,
-                    pair -> pair(pair.first(), ((Option) pair.second()).get()))));
     }
 
 
@@ -83,14 +68,6 @@ public class SwaggerV2 {
             "required", param.required,
             "type", param.type
         );
-    }
-
-    private static String typeWithOption(Type type) {
-        String typeName = type.getTypeName();
-        String optionName = Option.class.getCanonicalName();
-        return typeName.startsWith(optionName)
-            ? typeName.substring(optionName.length() + 1, typeName.length() - 1)
-            : typeName;
     }
 
     private static Map<String, String> paramLocation = map(
