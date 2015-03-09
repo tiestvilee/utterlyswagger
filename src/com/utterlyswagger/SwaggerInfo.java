@@ -42,56 +42,28 @@ public class SwaggerInfo {
         this.licenceUrl = licenceUrl;
     }
 
-    public Option<String> host() {
-        return host;
-    }
-
     public SwaggerInfo host(String newValue) {
         return new SwaggerInfo(title, apiVersion, some(newValue), basePath, description, termsOfService, contactEmail, licenceName, licenceUrl);
-    }
-
-    public Option<String> basePath() {
-        return basePath;
     }
 
     public SwaggerInfo basePath(String newValue) {
         return new SwaggerInfo(title, apiVersion, host, some(newValue), description, termsOfService, contactEmail, licenceName, licenceUrl);
     }
 
-    public Option<String> description() {
-        return description;
-    }
-
     public SwaggerInfo description(String newValue) {
         return new SwaggerInfo(title, apiVersion, host, basePath, some(newValue), termsOfService, contactEmail, licenceName, licenceUrl);
-    }
-
-    public Option<String> termsOfService() {
-        return termsOfService;
     }
 
     public SwaggerInfo termsOfService(String newValue) {
         return new SwaggerInfo(title, apiVersion, host, basePath, description, some(newValue), contactEmail, licenceName, licenceUrl);
     }
 
-    public Option<String> contactEmail() {
-        return contactEmail;
-    }
-
     public SwaggerInfo contactEmail(String newValue) {
         return new SwaggerInfo(title, apiVersion, host, basePath, description, termsOfService, some(newValue), licenceName, licenceUrl);
     }
 
-    public Option<String> licenceName() {
-        return licenceName;
-    }
-
     public SwaggerInfo licenceName(String newValue) {
         return new SwaggerInfo(title, apiVersion, host, basePath, description, termsOfService, contactEmail, some(newValue), licenceUrl);
-    }
-
-    public Option<String> licenceUrl() {
-        return licenceUrl;
     }
 
     public SwaggerInfo licenceUrl(String newValue) {

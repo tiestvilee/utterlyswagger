@@ -32,11 +32,11 @@ public class SwaggerV1_2 {
     public static Map<String, Object> swaggerInfo(SwaggerInfo info) {
         return realiseMap(
             pair("title", (Object) info.title),
-            pair("description", info.description()),
-            pair("termsOfServiceUrl", info.termsOfService()),
-            pair("contact", info.contactEmail()),
-            pair("license", info.licenceName()),
-            pair("licenseUrl", info.licenceUrl()));
+            pair("description", info.description),
+            pair("termsOfServiceUrl", info.termsOfService),
+            pair("contact", info.contactEmail),
+            pair("license", info.licenceName),
+            pair("licenseUrl", info.licenceUrl));
     }
 
     public static Sequence<Map<String, Object>> apis(Map<String, Sequence<Operation>> resources) {
