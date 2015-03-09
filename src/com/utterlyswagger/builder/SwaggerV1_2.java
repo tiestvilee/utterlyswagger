@@ -4,7 +4,6 @@ import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.Pair;
 import com.googlecode.totallylazy.Sequence;
 import com.utterlyswagger.SwaggerInfo;
-import com.utterlyswagger.TargetEndpointBaseLocation;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,12 +19,12 @@ import static com.utterlyswagger.builder.Operations.realiseMap;
 
 public class SwaggerV1_2 {
 
-    public static Map<String, Object> swaggerV1_2(SwaggerInfo info, TargetEndpointBaseLocation targetEndpointBaseLocation, Map<String, Sequence<Operation>> operations) {
+    public static Map<String, Object> swaggerV1_2(SwaggerInfo info, Map<String, Sequence<Operation>> operations) {
         return realiseMap(
             pair("swaggerVersion", "1.2"),
             pair("info", swaggerInfo(info)),
             pair("apis", apis(operations)),
-            pair("basePath", urlFor(targetEndpointBaseLocation.host, targetEndpointBaseLocation.basePath)),
+            pair("basePath", urlFor(info.host, info.basePath)),
             pair("apiVersion", info.apiVersion)
         );
     }

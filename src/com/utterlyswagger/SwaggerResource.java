@@ -14,23 +14,21 @@ public class SwaggerResource {
 
     private final SwaggerInfo info;
     private final Resources resources;
-    private final TargetEndpointBaseLocation targetEndpointBaseLocation;
 
-    public SwaggerResource(SwaggerInfo info, Resources resources, TargetEndpointBaseLocation targetEndpointBaseLocation) {
+    public SwaggerResource(SwaggerInfo info, Resources resources) {
         this.info = info;
         this.resources = resources;
-        this.targetEndpointBaseLocation = targetEndpointBaseLocation;
     }
 
     public Response version2() {
         return response(OK)
-            .entity(json(swaggerV2(info, targetEndpointBaseLocation, operationsFor(resources))))
+            .entity(json(swaggerV2(info, operationsFor(resources))))
             .build();
     }
 
     public Response version1() {
         return response(OK)
-            .entity(json(swaggerV1_2(info, targetEndpointBaseLocation, operationsFor(resources))))
+            .entity(json(swaggerV1_2(info, operationsFor(resources))))
             .build();
     }
 

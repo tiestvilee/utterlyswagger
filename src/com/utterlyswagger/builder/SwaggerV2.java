@@ -5,7 +5,6 @@ import com.googlecode.totallylazy.Option;
 import com.googlecode.totallylazy.Pair;
 import com.googlecode.totallylazy.Sequence;
 import com.utterlyswagger.SwaggerInfo;
-import com.utterlyswagger.TargetEndpointBaseLocation;
 import com.utterlyswagger.annotations.ResponseDescription;
 
 import java.lang.reflect.Type;
@@ -20,13 +19,13 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class SwaggerV2 {
 
-    public static Map<String, Object> swaggerV2(SwaggerInfo info, TargetEndpointBaseLocation targetEndpointBaseLocation, Map<String, Sequence<Operation>> operations) {
+    public static Map<String, Object> swaggerV2(SwaggerInfo info, Map<String, Sequence<Operation>> operations) {
         return mapWithoutOptions(
             pair("swagger", "2.0"),
             pair("info", swaggerInfo(info)),
             pair("paths", paths(operations)),
-            pair("basePath", (Object) targetEndpointBaseLocation.basePath),
-            pair("host", (Object) targetEndpointBaseLocation.host)
+            pair("basePath", info.basePath),
+            pair("host", info.host)
         );
     }
 
