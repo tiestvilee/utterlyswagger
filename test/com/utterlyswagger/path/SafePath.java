@@ -1,6 +1,9 @@
-package com.utterlyswagger.petshop.path;
+package com.utterlyswagger.path;
 
-import com.googlecode.totallylazy.*;
+import com.googlecode.totallylazy.Arrays;
+import com.googlecode.totallylazy.Option;
+import com.googlecode.totallylazy.Sequence;
+import com.googlecode.totallylazy.Unchecked;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +14,7 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 import static java.lang.String.format;
 
 public class SafePath {
-    public static Option<Map<String, Object>> mapAt(Object source, Object... path) { return objectAt(source, path).map(map -> (Map<String, Object>) map); }
+    public static Option<Map<String, Object>> mapAt(Object source, Object... path) { return objectAt(source, path).map(Unchecked::cast); }
 
     public static Sequence<Object> sequenceAt(Object source, Object... path) {
         return objectAt(source, path)

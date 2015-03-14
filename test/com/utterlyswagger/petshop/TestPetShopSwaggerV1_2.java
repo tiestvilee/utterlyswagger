@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static com.utterlyswagger.petshop.path.BasicPath.mapAt;
-import static com.utterlyswagger.petshop.path.BasicPath.sequenceAt;
-import static com.utterlyswagger.petshop.path.PathAssertions.*;
+import static com.utterlyswagger.path.BasicPath.mapAt;
+import static com.utterlyswagger.path.BasicPath.sequenceAt;
+import static com.utterlyswagger.path.PathAssertions.*;
 import static java.lang.String.format;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;

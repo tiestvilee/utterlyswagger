@@ -8,9 +8,9 @@ import java.util.Collection;
 import java.util.Map;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
-import static com.utterlyswagger.petshop.path.BasicPath.mapAt;
-import static com.utterlyswagger.petshop.path.PathAssertions.*;
-import static com.utterlyswagger.petshop.path.SafePath.objectAt;
+import static com.utterlyswagger.path.BasicPath.mapAt;
+import static com.utterlyswagger.path.PathAssertions.*;
+import static com.utterlyswagger.path.SafePath.objectAt;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

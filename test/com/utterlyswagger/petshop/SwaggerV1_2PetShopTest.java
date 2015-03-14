@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static com.googlecode.utterlyidle.RequestBuilder.get;
 
-public class SwaggerV1_2ModuleJsonTest extends TestPetShopSwaggerV1_2 {
+public class SwaggerV1_2PetShopTest extends TestPetShopSwaggerV1_2 {
 
     private final Application application = new PetShopApplication(new BasePath("/"));
 

@@ -30,12 +30,12 @@ public class Operations {
 
     public static Map<String, Sequence<Operation>> operationsFor(Resources resources) {
         return squashIntoMap(sequence(resources)
-                .filter(binding -> !binding.hidden())
-                .map(binding ->
-                    pair(
-                        operationPath(binding),
-                        operation(binding)
-                    )));
+            .filter(binding -> !binding.hidden())
+            .map(binding ->
+                pair(
+                    operationPath(binding),
+                    operation(binding)
+                )));
     }
 
     private static Map<String, Sequence<Operation>> squashIntoMap(Sequence<Pair<String, Operation>> map) {
@@ -97,18 +97,25 @@ public class Operations {
     }
 
     private static Sequence<Parameter> parameters(Sequence<Pair<Type, Option<com.googlecode.utterlyidle.Parameter>>> parameters) {
-        return parameters.map(Operations::parameter);
+        return parameters
+            .map(Operations::parameter)
+            .filter(Option::isDefined)
+            .map(Option::get);
     }
 
-    private static Parameter parameter(Pair<Type, Option<com.googlecode.utterlyidle.Parameter>> paramPair) {
-        NamedParameter param = (NamedParameter) paramPair.second().get();
+    private static Option<Parameter> parameter(Pair<Type, Option<com.googlecode.utterlyidle.Parameter>> paramPair) {
         Type type = paramPair.first();
-        return new Parameter(
-            param.name(),
-            param.parametersClass().getSimpleName(),
-            notOptional(type),
-            typeFor(type));
+        return paramPair.second()
+            .filter(instanceOf(NamedParameter.class))
+            .map(param -> (NamedParameter) param)
+            .map(param -> new Parameter(
+                param.name(),
+                annotationClassOf(param),
+                notOptional(type),
+                typeFor(type)));
     }
+
+    private static String annotationClassOf(NamedParameter param) {return param.parametersClass().getSimpleName();}
 
     public static String typeFor(Type type) {
         return option(typeMap.get(typeWithOption(type)))

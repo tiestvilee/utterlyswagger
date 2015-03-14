@@ -1,4 +1,4 @@
-package com.utterlyswagger.petshop.path;
+package com.utterlyswagger.path;
 
 import com.googlecode.totallylazy.Arrays;
 import com.googlecode.totallylazy.Sequence;

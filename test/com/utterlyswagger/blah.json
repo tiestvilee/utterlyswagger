@@ -1,0 +1,19 @@
+{
+  "swagger":"2.0",
+  "info":{
+    "title":"Swagger Application",
+    "version":"0.1",
+    "contact":{},
+    "license":{}
+  },
+  "paths":{
+    "/utterlyidle/exceptions":{
+      "get":{"summary":"","description":"","produces":["text/html"],"parameters":[],"responses":{"default":{"description":"successful operation"}}}
+      },
+    "/unnammed-param":{
+      "get":{
+        "summary":"",
+        "description":"",
+        "produces":["*/*"],
+        "parameters":[],
+        "responses":{"default":{"description":"successful operation"}}}}}}

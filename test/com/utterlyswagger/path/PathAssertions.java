@@ -1,4 +1,4 @@
-package com.utterlyswagger.petshop.path;
+package com.utterlyswagger.path;
 
 import com.googlecode.totallylazy.Unchecked;
 import org.hamcrest.BaseMatcher;
