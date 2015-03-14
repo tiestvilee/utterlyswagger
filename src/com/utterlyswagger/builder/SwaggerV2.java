@@ -13,6 +13,8 @@ import static com.utterlyswagger.builder.Operations.realiseMap;
 
 public class SwaggerV2 {
 
+    public static final String UNKNOWN = "unknown";
+
     public static Map<String, Object> swaggerV2(SwaggerInfo info, Map<String, Sequence<Operation>> operations) {
         return realiseMap(
             pair("swagger", "2.0"),
@@ -72,7 +74,7 @@ public class SwaggerV2 {
     private static Map<String, Object> parameter(Parameter param) {
         return map(
             "name", param.name,
-            "in", paramLocation.getOrDefault(param.paramType, "unknown"),
+            "in", paramLocation.getOrDefault(param.paramType, UNKNOWN),
             "required", param.required,
             "type", param.type
         );
