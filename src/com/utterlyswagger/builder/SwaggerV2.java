@@ -61,15 +61,6 @@ public class SwaggerV2 {
         return parameters.map(SwaggerV2::parameter);
     }
 
-    private static Map<String, Object> parameter(Parameter param) {
-        return map(
-            "name", param.name,
-            "in", paramLocation.get(param.paramType),
-            "required", param.required,
-            "type", param.type
-        );
-    }
-
     private static Map<String, String> paramLocation = map(
         "PathParameters", "path",
         "CookieParameters", "cookie",
@@ -77,6 +68,15 @@ public class SwaggerV2 {
         "FormParameters", "formData",
         "HeaderParameters", "header"
     );
+
+    private static Map<String, Object> parameter(Parameter param) {
+        return map(
+            "name", param.name,
+            "in", paramLocation.getOrDefault(param.paramType, "unknown"),
+            "required", param.required,
+            "type", param.type
+        );
+    }
     private static Map<String, Object> responses(Sequence<ResponseDescription> responseDescriptions) {
         return map(responseDescriptions.map(desc ->
                 pair(desc.status(), (Object) map("description", desc.description()))

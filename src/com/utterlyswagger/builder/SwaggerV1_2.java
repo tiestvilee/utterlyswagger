@@ -66,10 +66,19 @@ public class SwaggerV1_2 {
         return operation.parameters.map(SwaggerV1_2::parameter);
     }
 
+    private static Map<String, String> paramLocation = map(
+        "PathParameters", "path",
+        "CookieParameters", "cookie",
+        "QueryParameters", "query",
+        "FormParameters", "form",
+        "HeaderParameters", "header"
+    );
+
     private static Map<String, Object> parameter(Parameter param) {
         return map(
             "name", param.name,
-            "paramType", paramLocation.get(param.paramType),
+            "paramType", paramLocation.getOrDefault(
+                param.paramType, "unknown"),
             "required", param.required,
             "type", param.type
         );
@@ -82,14 +91,6 @@ public class SwaggerV1_2 {
                 map("code", (Object) Integer.parseInt(desc.status()),
                     "message", desc.description()));
     }
-
-    private static Map<String, String> paramLocation = map(
-        "PathParameters", "path",
-        "CookieParameters", "cookie",
-        "QueryParameters", "query",
-        "FormParameters", "form",
-        "HeaderParameters", "header"
-    );
 
     private static Option<String> urlFor(Option<String> host, Option<String> basePath) {
         try {
