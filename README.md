@@ -15,7 +15,7 @@ By adding your module to your UtterlyIdle application you get swagger for free.
         }
     }
 
-The above code snippet will add the UtterlySwagger Swagger module to the `ExampleApplication`. It defaults to serving the swagger files a `/swagger/swagger_v1.2.json` and `/swagger/swagger_v2.json`.
+The above code snippet will add the UtterlySwagger Swagger module to the `ExampleApplication`. It defaults to serving the swagger files at `/swagger/swagger_v1.2.json` and `/swagger/swagger_v2.json`.
 
 The `SwaggerInfo` object can also define other information such as api-description, api-version and so on, and it is possible to supply a base path to the swagger files.
 
@@ -27,7 +27,7 @@ Simply download the latest build from [releases](https://github.com/tiestvilee/u
 
 This code was written to conform to the bits I find interesting of [Swagger 2.0](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) and [Swagger 1.2](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md).
 
-The tests for the version 2.0 code used the Swagger 2.0 PetStore example to validated compatibility with a real implementation.
+The tests for the version 2.0 code used the [Swagger 2.0 PetStore](http://petstore.swagger.io/v2/swagger.json) example to validated compatibility with a real implementation.
 
 ## Compatibility
 
