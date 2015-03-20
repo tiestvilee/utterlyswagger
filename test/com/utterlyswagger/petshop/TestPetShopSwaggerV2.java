@@ -150,5 +150,17 @@ public abstract class TestPetShopSwaggerV2 {
             ));
     }
 
+    @Test
+    public void definesBodyTypeParameter() throws Exception {
+        assertThat(
+            mapAt(getSwagger(), "paths", "/pet", "post", "parameters", 0),
+            allOf(
+                stringInPath(is("body"), "in"),
+                stringInPath(is("body"), "name"),
+                stringInPath(is("Pet object that needs to be added to the store"), "description")
+            ));
+    }
+
+
     protected abstract Map<String, Object> getSwagger() throws Exception;
 }

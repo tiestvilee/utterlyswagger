@@ -9,6 +9,7 @@ import java.util.Map;
 import static com.googlecode.totallylazy.Maps.map;
 import static com.googlecode.totallylazy.Maps.pairs;
 import static com.googlecode.totallylazy.Pair.pair;
+import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.utterlyswagger.builder.Operations.realiseMap;
 
 public class SwaggerV2 {
@@ -63,22 +64,25 @@ public class SwaggerV2 {
         return parameters.map(SwaggerV2::parameter);
     }
 
-    private static Map<String, String> paramLocation = map(
-        "PathParameters", "path",
-        "CookieParameters", "cookie",
-        "QueryParameters", "query",
-        "FormParameters", "formData",
-        "HeaderParameters", "header"
-    );
+    private static Map<String, String> paramLocation = map(sequence(
+        pair("body", "body"),
+        pair("PathParameters", "path"),
+        pair("CookieParameters", "cookie"),
+        pair("QueryParameters", "query"),
+        pair("FormParameters", "formData"),
+        pair("HeaderParameters", "header")
+    ));
 
     private static Map<String, Object> parameter(Parameter param) {
-        return map(
-            "name", param.name,
-            "in", paramLocation.getOrDefault(param.paramType, UNKNOWN),
-            "required", param.required,
-            "type", param.type
+        return realiseMap(
+            pair("name", param.name),
+            pair("in", paramLocation.getOrDefault(param.paramType, UNKNOWN)),
+            pair("required", param.required),
+            pair("type", param.type),
+            pair("description", param.description)
         );
     }
+
     private static Map<String, Object> responses(Sequence<ResponseDescription> responseDescriptions) {
         return map(responseDescriptions.map(desc ->
                 pair(desc.status(), (Object) map("description", desc.description()))

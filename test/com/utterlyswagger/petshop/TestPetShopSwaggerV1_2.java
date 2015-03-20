@@ -139,6 +139,17 @@ public abstract class TestPetShopSwaggerV1_2 {
             ));
     }
 
+    @Test
+    public void definesBodyTypeParameter() throws Exception {
+        assertThat(
+            mapAt(getEndpointOperation("/pet", "POST"), "parameters", 0),
+            allOf(
+                stringInPath(is("body"), "paramType"),
+                stringInPath(is("body"), "name"),
+                stringInPath(is("Pet object that needs to be added to the store"), "description")
+            ));
+    }
+
     private Sequence<Map<String, Object>> getEndpoint(String endPointName) throws Exception {
         return sequenceAt(getSwagger(), "apis")
             .map(api -> (Map<String, Object>) api)

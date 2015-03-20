@@ -10,6 +10,7 @@ import com.googlecode.utterlyidle.annotations.Path;
 import com.googlecode.utterlyidle.annotations.PathParam;
 import com.googlecode.utterlyidle.annotations.Produces;
 import com.utterlyswagger.annotations.Description;
+import com.utterlyswagger.annotations.RequestBody;
 import com.utterlyswagger.annotations.ResponseDescription;
 import com.utterlyswagger.annotations.Summary;
 
@@ -18,6 +19,11 @@ public class PetShopResource {
     @GET
     @Path("/pet")
     public Response pet() { return null; }
+
+    @POST
+    @Path("/pet")
+    @RequestBody("Pet object that needs to be added to the store")
+    public Response postPet() { return null; }
 
     @GET
     @Path("/pet/findByStatus")

@@ -10,6 +10,7 @@ import com.googlecode.utterlyidle.NamedParameter;
 import com.googlecode.utterlyidle.Resources;
 import com.googlecode.utterlyidle.bindings.actions.ResourceMethod;
 import com.utterlyswagger.annotations.Description;
+import com.utterlyswagger.annotations.RequestBody;
 import com.utterlyswagger.annotations.ResponseDescription;
 import com.utterlyswagger.annotations.ResponseDescriptions;
 import com.utterlyswagger.annotations.Summary;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 import static com.googlecode.totallylazy.Callables.when;
 import static com.googlecode.totallylazy.Maps.map;
+import static com.googlecode.totallylazy.Option.none;
 import static com.googlecode.totallylazy.Option.option;
 import static com.googlecode.totallylazy.Pair.pair;
 import static com.googlecode.totallylazy.Predicates.*;
@@ -63,7 +65,7 @@ public class Operations {
             summary(annotations),
             binding.produces().toList(),
             responses(annotations),
-            parameters(binding.parameters()));
+            parameters(annotations, binding.parameters()));
     }
 
     private static Method getResourceMethod(Binding binding) {
@@ -96,11 +98,29 @@ public class Operations {
             .getOrElse(defaultResult);
     }
 
-    private static Sequence<Parameter> parameters(Sequence<Pair<Type, Option<com.googlecode.utterlyidle.Parameter>>> parameters) {
+    private static Sequence<Parameter> parameters(Sequence<Annotation> annotations, Sequence<Pair<Type, Option<com.googlecode.utterlyidle.Parameter>>> parameters) {
+        Sequence<Parameter> methodParameters = methodParameters(parameters);
+        return bodyParameter(annotations)
+            .map(body -> methodParameters.append(body))
+            .getOrElse(methodParameters);
+    }
+
+    private static Sequence<Parameter> methodParameters(Sequence<Pair<Type, Option<com.googlecode.utterlyidle.Parameter>>> parameters) {
         return parameters
             .map(Operations::parameter)
             .filter(Option::isDefined)
             .map(Option::get);
+    }
+
+    private static Option<Parameter> bodyParameter(Sequence<Annotation> annotations) {
+        return annotations
+            .find(instanceOf(RequestBody.class))
+            .map(annotation -> (RequestBody) annotation)
+            .map(annotation -> new Parameter(
+                "body", "body", none(), none(),
+                annotation.value().equals(RequestBody.UNDEFINED)
+                    ? none()
+                    : option(annotation.value())));
     }
 
     private static Option<Parameter> parameter(Pair<Type, Option<com.googlecode.utterlyidle.Parameter>> paramPair) {
@@ -111,8 +131,9 @@ public class Operations {
             .map(param -> new Parameter(
                 param.name(),
                 annotationClassOf(param),
-                notOptional(type),
-                typeFor(type)));
+                option(notOptional(type)),
+                option(typeFor(type)),
+                none()));
     }
 
     private static String annotationClassOf(NamedParameter param) {return param.parametersClass().getSimpleName();}

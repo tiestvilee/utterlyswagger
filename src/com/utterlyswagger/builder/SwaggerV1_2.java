@@ -66,21 +66,23 @@ public class SwaggerV1_2 {
         return operation.parameters.map(SwaggerV1_2::parameter);
     }
 
-    private static Map<String, String> paramLocation = map(
-        "PathParameters", "path",
-        "CookieParameters", "cookie",
-        "QueryParameters", "query",
-        "FormParameters", "form",
-        "HeaderParameters", "header"
-    );
+    private static Map<String, String> paramLocation = map(sequence(
+        pair("body", "body"),
+        pair("PathParameters", "path"),
+        pair("CookieParameters", "cookie"),
+        pair("QueryParameters", "query"),
+        pair("FormParameters", "form"),
+        pair("HeaderParameters", "header")
+    ));
 
     private static Map<String, Object> parameter(Parameter param) {
-        return map(
-            "name", param.name,
-            "paramType", paramLocation.getOrDefault(
-                param.paramType, "unknown"),
-            "required", param.required,
-            "type", param.type
+        return realiseMap(
+            pair("name", param.name),
+            pair("paramType", paramLocation.getOrDefault(
+                param.paramType, "unknown")),
+            pair("required", param.required),
+            pair("type", param.type),
+            pair("description", param.description)
         );
     }
 
