@@ -7,6 +7,7 @@ import com.googlecode.utterlyidle.annotations.Path;
 import com.googlecode.utterlyidle.annotations.QueryParam;
 import com.utterlyswagger.annotations.ParamDescription;
 import com.utterlyswagger.annotations.RequestBody;
+import com.utterlyswagger.annotations.ResponseDescription;
 
 public class ExampleResource {
 
@@ -37,4 +38,16 @@ public class ExampleResource {
     @ParamDescription(name = "strange", description = "a-description")
     @ParamDescription(name = "strange2", description = "another-description")
     public Response paramTwoDescription(@QueryParam("strange") String strange, @QueryParam("strange2") String strange2) { return null; }
+
+    @GET
+    @Path("/one-response")
+    @ResponseDescription(status = "404", description = "not found")
+    public Response oneResponse() { return null; }
+
+    @GET
+    @Path("/two-response")
+    @ResponseDescription(status = "404", description = "not found")
+    @ResponseDescription(status = "500", description = "all wrong")
+    public Response twoResponses() { return null; }
+
 }

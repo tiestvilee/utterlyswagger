@@ -87,6 +87,34 @@ public class TestExampleSwagger {
             ));
     }
 
+    @Test
+    public void copes_with_no_response_description() throws Exception {
+        assertThat(
+            mapAt(getJson(), "paths", "/no-params", "get", "responses"),
+            stringInPath(is("successful operation"), "default", "description")
+        );
+    }
+
+    @Test
+    public void copes_with_one_response_description() throws Exception {
+        assertThat(
+            mapAt(getJson(), "paths", "/one-response", "get", "responses"),
+            stringInPath(is("not found"), "404", "description")
+        );
+    }
+
+    @Test
+    public void copes_with_two_response_descriptions() throws Exception {
+        assertThat(
+            mapAt(getJson(), "paths", "/two-response", "get", "responses"),
+            allOf(
+                stringInPath(is("not found"), "404", "description"),
+                stringInPath(is("all wrong"), "500", "description")
+            )
+        );
+    }
+
+
     private Matcher<Map<? extends String, ?>> hasDescription() {return hasEntry(is("description"), (Matcher<Object>) is(String.class));}
 
     private Map<String, Object> getJson() throws Exception {
@@ -94,7 +122,6 @@ public class TestExampleSwagger {
 
         Response handle = app.handle(get("/swagger/swagger_v2.json").build());
         String jsonString = handle.entity().toString();
-        System.out.println("jsonString = " + jsonString);
         return Json.map(jsonString);
     }
 }

@@ -1,7 +1,6 @@
 package com.utterlyswagger.petshop;
 
 import com.googlecode.totallylazy.Sequence;
-import com.googlecode.totallylazy.json.Json;
 import org.junit.Test;
 
 import java.math.BigDecimal;
@@ -91,7 +90,6 @@ public abstract class TestPetShopSwaggerV1_2 {
 
     @Test
     public void definesDeleteResourceWithDescriptionAndMoreResponses() throws Exception {
-        System.out.println(Json.json(getSwagger()));
         assertThat(
             getEndpointOperation("/store/order/{orderId}", "DELETE"),
             allOf(

@@ -89,8 +89,14 @@ public class Operations {
     }
 
     private static Sequence<ResponseDescription> responses(Sequence<Annotation> annotations) {
-        return getAnnotationValue(annotations, sequence(DEFAULT_RESPONSE_DESCRIPTION), ResponseDescriptions.class,
+        Sequence<ResponseDescription> multipleResponses = getAnnotationValue(annotations, sequence(), ResponseDescriptions.class,
             responseDescriptions -> sequence(((ResponseDescriptions) responseDescriptions).value()));
+        Sequence<ResponseDescription> singleResponse = getAnnotationValue(annotations, sequence(), ResponseDescription.class,
+            responseDescriptions -> sequence((ResponseDescription) responseDescriptions));
+        Sequence<ResponseDescription> allResponses = multipleResponses.join(singleResponse);
+        return allResponses.isEmpty()
+            ? sequence(DEFAULT_RESPONSE_DESCRIPTION)
+            : allResponses;
     }
 
     private static <T> T getAnnotationValue(Sequence<Annotation> annotations, T defaultResult, Class aClass, Callable1<Annotation, T> getValue) {

@@ -1,16 +1,11 @@
 package com.utterlyswagger.petshop;
 
-import com.googlecode.totallylazy.Unchecked;
-import com.googlecode.totallylazy.json.Json;
 import org.junit.Test;
 
-import java.util.Collection;
 import java.util.Map;
 
-import static com.googlecode.totallylazy.Sequences.sequence;
 import static com.utterlyswagger.path.BasicPath.mapAt;
 import static com.utterlyswagger.path.PathAssertions.*;
-import static com.utterlyswagger.path.SafePath.objectAt;
 import static org.hamcrest.CoreMatchers.hasItems;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -73,17 +68,6 @@ public abstract class TestPetShopSwaggerV2 {
         assertThat(
             getSwagger(),
             mapInPathKeys(hasItems(endPoints), "paths"));
-
-        Collection<String> allEndpoints = objectAt(getSwagger(), "paths")
-            .map(Unchecked::<Map>cast)
-            .map(Map::keySet)
-            .map(Unchecked::<Collection<String>>cast)
-            .get();
-
-        System.out.println(
-            sequence(allEndpoints)
-                .filter(endPoint -> !sequence(endPoints).contains(endPoint)));
-        System.out.println(Json.json(getSwagger()));
     }
 
     @Test
