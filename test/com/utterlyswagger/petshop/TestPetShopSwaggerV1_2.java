@@ -118,6 +118,7 @@ public abstract class TestPetShopSwaggerV1_2 {
             allOf(
                 stringInPath(is("petId"), "name"),
                 stringInPath(is("path"), "paramType"),
+                stringInPath(is("ID of pet that needs to be updated"), "description"),
                 objectInPath(is(true), "required"),
                 stringInPath(is("string"), "type")));
 
@@ -126,6 +127,7 @@ public abstract class TestPetShopSwaggerV1_2 {
             allOf(
                 stringInPath(is("name"), "name"),
                 stringInPath(is("form"), "paramType"),
+                stringInPath(is("Updated name of the pet"), "description"),
                 objectInPath(is(false), "required"),
                 stringInPath(is("string"), "type")));
 
@@ -134,6 +136,7 @@ public abstract class TestPetShopSwaggerV1_2 {
             allOf(
                 stringInPath(is("form"), "paramType"),
                 stringInPath(is("status"), "name"),
+                stringInPath(is("Updated status of the pet"), "description"),
                 objectInPath(is(false), "required"),
                 stringInPath(is("string"), "type")
             ));

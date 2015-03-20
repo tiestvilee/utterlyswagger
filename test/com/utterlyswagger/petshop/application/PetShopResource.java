@@ -10,6 +10,7 @@ import com.googlecode.utterlyidle.annotations.Path;
 import com.googlecode.utterlyidle.annotations.PathParam;
 import com.googlecode.utterlyidle.annotations.Produces;
 import com.utterlyswagger.annotations.Description;
+import com.utterlyswagger.annotations.ParamDescription;
 import com.utterlyswagger.annotations.RequestBody;
 import com.utterlyswagger.annotations.ResponseDescription;
 import com.utterlyswagger.annotations.Summary;
@@ -39,6 +40,9 @@ public class PetShopResource {
 
     @POST
     @Path("/pet/{petId}")
+    @ParamDescription(name = "petId", description = "ID of pet that needs to be updated")
+    @ParamDescription(name = "status", description = "Updated status of the pet")
+    @ParamDescription(name = "name", description = "Updated name of the pet")
     public Response updatePetId(@PathParam("petId") String petId, @FormParam("name") Option<String> name, @FormParam("status") Option<String> status) { return null; }
 
     @GET

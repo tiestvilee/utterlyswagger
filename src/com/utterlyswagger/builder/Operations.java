@@ -10,6 +10,8 @@ import com.googlecode.utterlyidle.NamedParameter;
 import com.googlecode.utterlyidle.Resources;
 import com.googlecode.utterlyidle.bindings.actions.ResourceMethod;
 import com.utterlyswagger.annotations.Description;
+import com.utterlyswagger.annotations.ParamDescription;
+import com.utterlyswagger.annotations.ParamDescriptions;
 import com.utterlyswagger.annotations.RequestBody;
 import com.utterlyswagger.annotations.ResponseDescription;
 import com.utterlyswagger.annotations.ResponseDescriptions;
@@ -99,15 +101,26 @@ public class Operations {
     }
 
     private static Sequence<Parameter> parameters(Sequence<Annotation> annotations, Sequence<Pair<Type, Option<com.googlecode.utterlyidle.Parameter>>> parameters) {
-        Sequence<Parameter> methodParameters = methodParameters(parameters);
+        Sequence<Parameter> methodParameters = methodParameters(annotations, parameters);
         return bodyParameter(annotations)
             .map(body -> methodParameters.append(body))
             .getOrElse(methodParameters);
     }
 
-    private static Sequence<Parameter> methodParameters(Sequence<Pair<Type, Option<com.googlecode.utterlyidle.Parameter>>> parameters) {
+    private static Sequence<Parameter> methodParameters(Sequence<Annotation> annotations, Sequence<Pair<Type, Option<com.googlecode.utterlyidle.Parameter>>> parameters) {
+
+        Sequence<ParamDescription> descriptions = annotations
+            .find(instanceOf(ParamDescriptions.class))
+            .map(paramDescriptions -> sequence(((ParamDescriptions) paramDescriptions).value()))
+            .getOrElse(sequence());
+
+        Sequence<ParamDescription> singleDescription = annotations
+            .find(instanceOf(ParamDescription.class))
+            .map(description -> sequence((ParamDescription) description))
+            .getOrElse(sequence());
+
         return parameters
-            .map(Operations::parameter)
+            .map(parameter -> parameter(parameter, singleDescription.join(descriptions)))
             .filter(Option::isDefined)
             .map(Option::get);
     }
@@ -123,17 +136,24 @@ public class Operations {
                     : option(annotation.value())));
     }
 
-    private static Option<Parameter> parameter(Pair<Type, Option<com.googlecode.utterlyidle.Parameter>> paramPair) {
+    private static Option<Parameter> parameter(Pair<Type, Option<com.googlecode.utterlyidle.Parameter>> paramPair, Sequence<ParamDescription> descriptions) {
         Type type = paramPair.first();
         return paramPair.second()
             .filter(instanceOf(NamedParameter.class))
             .map(param -> (NamedParameter) param)
             .map(param -> new Parameter(
-                param.name(),
-                annotationClassOf(param),
-                option(notOptional(type)),
-                option(typeFor(type)),
-                none()));
+                    param.name(),
+                    annotationClassOf(param),
+                    option(notOptional(type)),
+                    option(typeFor(type)),
+                    paramDescriptionFor(param.name(), descriptions))
+            );
+    }
+
+    private static Option<String> paramDescriptionFor(String paramName, Sequence<ParamDescription> descriptions) {
+        return descriptions
+            .find(description -> description.name().equals(paramName))
+            .map(description -> description.description());
     }
 
     private static String annotationClassOf(NamedParameter param) {return param.parametersClass().getSimpleName();}
