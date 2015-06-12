@@ -1,10 +1,6 @@
 package com.utterlyswagger.builder;
 
-import com.googlecode.totallylazy.Callable1;
-import com.googlecode.totallylazy.None;
-import com.googlecode.totallylazy.Option;
-import com.googlecode.totallylazy.Pair;
-import com.googlecode.totallylazy.Sequence;
+import com.googlecode.totallylazy.*;
 import com.googlecode.utterlyidle.Binding;
 import com.googlecode.utterlyidle.NamedParameter;
 import com.googlecode.utterlyidle.Resources;
@@ -89,9 +85,9 @@ public class Operations {
     }
 
     private static Sequence<ResponseDescription> responses(Sequence<Annotation> annotations) {
-        Sequence<ResponseDescription> multipleResponses = getAnnotationValue(annotations, sequence(), ResponseDescriptions.class,
+        Sequence<ResponseDescription> multipleResponses = getAnnotationValue(annotations, Sequences.empty(ResponseDescription.class), ResponseDescriptions.class,
             responseDescriptions -> sequence(((ResponseDescriptions) responseDescriptions).value()));
-        Sequence<ResponseDescription> singleResponse = getAnnotationValue(annotations, sequence(), ResponseDescription.class,
+        Sequence<ResponseDescription> singleResponse = getAnnotationValue(annotations, Sequences.empty(ResponseDescription.class), ResponseDescription.class,
             responseDescriptions -> sequence((ResponseDescription) responseDescriptions));
         Sequence<ResponseDescription> allResponses = multipleResponses.join(singleResponse);
         return allResponses.isEmpty()
