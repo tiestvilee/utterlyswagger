@@ -50,7 +50,7 @@ public class Operations {
             });
     }
 
-    private static String operationPath(Binding binding) {return "/" + binding.uriTemplate();}
+    private static String operationPath(Binding binding) {return PathMatcher.operationPath(binding.uriTemplate().toString());}
 
     private static Operation operation(Binding binding) {
         Method resourceMethod = getResourceMethod(binding);
