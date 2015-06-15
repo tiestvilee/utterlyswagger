@@ -35,8 +35,9 @@ public class PetShopResource {
     public Response findByTags() { return null; }
 
     @GET
-    @Path("/pet/{petId}")
-    public Response petId(@PathParam("petId") String petId) { return null; }
+    @Path("/pet/{petId:(.*)?}")
+    @ParamDescription(name = "petId", description = "ID of pet that needs to be fetched")
+    public Response petId(@PathParam("petId") Integer petId) { return null; }
 
     @POST
     @Path("/pet/{petId}")

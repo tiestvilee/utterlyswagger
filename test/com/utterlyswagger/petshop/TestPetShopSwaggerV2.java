@@ -106,6 +106,19 @@ public abstract class TestPetShopSwaggerV2 {
     }
 
     @Test
+    public void ignoresRegexInPathParam() throws Exception {
+        assertThat(
+                mapAt(getSwagger(), "paths", "/pet/{petId}", "get", "parameters", 0),
+                allOf(
+                        stringInPath(is("petId"), "name"),
+                        stringInPath(is("path"), "in"),
+                        stringInPath(is("ID of pet that needs to be fetched"), "description"),
+                        objectInPath(is(true), "required"),
+                        stringInPath(is("integer"), "type")));
+
+    }
+
+    @Test
     public void definesParametersToEndpoint() throws Exception {
         assertThat(
             mapAt(getSwagger(), "paths", "/pet/{petId}", "post", "parameters", 0),
